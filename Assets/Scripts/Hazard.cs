@@ -25,6 +25,7 @@ public abstract class Hazard : MonoBehaviour
         {
             ApplyFailure();
             Debug.Log("Hazard Failed");
+            isFixed = true;
         }
         CleanupHazard();
 

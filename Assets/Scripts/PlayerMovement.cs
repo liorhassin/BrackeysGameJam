@@ -40,6 +40,9 @@ public class PlayerMovement : MonoBehaviour
         MyInput();
         SpeedControl();
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
+        //Debug.Log("Horizontal: " + horizontalInput + " | Vertical: " + verticalInput);
+
+        //Debug.Log("Grounded: " + grounded);
         rb.linearDamping = grounded ? groundDrag : 0;
 
         if (Input.GetKeyDown(interactKey))

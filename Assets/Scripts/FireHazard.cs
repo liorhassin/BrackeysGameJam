@@ -5,9 +5,9 @@ public class FireHazard : Hazard
     private void Start()
     {
         hazardName = "House on Fire";
-        difficultyLevel = 0; 
+        difficultyLevel = 0;
         hazardDuration = 15;
-        isFixed = false;
+        isFixed = true;
     }
 
     public override void TriggerHazard()
