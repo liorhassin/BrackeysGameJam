@@ -5,15 +5,13 @@ public abstract class Hazard : MonoBehaviour
     public string hazardName;
     public int difficultyLevel;
     public int hazardDuration;
-    protected bool isFixed;
+    public bool isFixed = true;
 
     public void StartHazard()
     {
-        if (!isFixed)
-        {
-            TriggerHazard();
-            Invoke(nameof(CheckFailure), hazardDuration);
-        }
+        TriggerHazard();
+        isFixed = false;
+        Invoke(nameof(CheckFailure), hazardDuration);
     }
 
 

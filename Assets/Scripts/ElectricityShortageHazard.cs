@@ -2,13 +2,12 @@ using UnityEngine;
 
 public class ElectricityShortageHazard : Hazard
 {
-
-    void Start()
+    private void Start()
     {
         hazardName = "Electricity Shortage";
-        difficultyLevel = 30;
+        difficultyLevel = 0;
         hazardDuration = 15;
-        isFixed = false;
+        isFixed = true;
     }
     public override void TriggerHazard()
     {

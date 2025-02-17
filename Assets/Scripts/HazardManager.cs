@@ -9,14 +9,18 @@ public class HazardManager : MonoBehaviour
 
     private float nextHazardTime;
     public float progress;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private Hazard lastTriggeredHazard = null;
+
     void Start()
     {
         minTimeBetweenHazards = 10f;
         maxTimeBetweenHazards = 30f;
         nextHazardTime = 10f;
-        hazards.AddRange(FindObjectsOfType<Hazard>());
-        
+        hazards.AddRange(FindObjectsByType<Hazard>(FindObjectsSortMode.None));
+        if (hazards.Count == 0)
+        {
+            Debug.LogWarning("No hazards found in the scene!");
+        }
     }
 
     // Update is called once per frame
@@ -38,13 +42,14 @@ public class HazardManager : MonoBehaviour
 
     private void TriggerRandomHazard()
     {
-        List<Hazard> availableHazards = hazards.FindAll(h => h.difficultyLevel <= progress);
+        List<Hazard> availableHazards = hazards.FindAll(h => h.difficultyLevel <= progress && h != lastTriggeredHazard);
 
         if (availableHazards.Count > 0)
         {
             Hazard selectedHazard = availableHazards[Random.Range(0, availableHazards.Count)];
             selectedHazard.StartHazard();
             Debug.Log("Hazard Triggered: " + selectedHazard.hazardName);
+            lastTriggeredHazard = selectedHazard;
         }
         else
         {

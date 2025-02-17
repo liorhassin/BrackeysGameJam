@@ -4,19 +4,15 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed;
-
     public float groundDrag;
-
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
     bool readyToJump;
 
-    [HideInInspector] public float walkSpeed;
-    [HideInInspector] public float sprintSpeed;
-
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
+    public KeyCode interactKey = KeyCode.E;
 
     [Header("Ground Check")]
     public float playerHeight;
@@ -24,41 +20,37 @@ public class PlayerMovement : MonoBehaviour
     bool grounded;
 
     public Transform orientation;
+    public Camera playerCamera; // Reference to the player camera
+    public float interactionRange = 3f; // How far the player can interact
 
     float horizontalInput;
     float verticalInput;
-
     Vector3 moveDirection;
-
     Rigidbody rb;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-
         readyToJump = true;
     }
 
     private void Update()
     {
-
         MyInput();
         SpeedControl();
-        if (Input.GetKeyDown(KeyCode.E))
+        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
+        rb.linearDamping = grounded ? groundDrag : 0;
+
+        if (Input.GetKeyDown(interactKey))
         {
             Interact();
         }
-
     }
 
     private void FixedUpdate()
     {
         MovePlayer();
-
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
-
-        rb.linearDamping = grounded ? groundDrag : 0;
     }
 
     private void MyInput()
@@ -69,30 +61,23 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(jumpKey) && readyToJump && grounded)
         {
             readyToJump = false;
-
             Jump();
-
             Invoke(nameof(ResetJump), jumpCooldown);
         }
-
-
     }
 
     private void MovePlayer()
     {
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-
         if (grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
-
-        else if (!grounded)
+        else
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
     }
 
     private void SpeedControl()
     {
         Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-
         if (flatVel.magnitude > moveSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * moveSpeed;
@@ -103,9 +88,9 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }
+
     private void ResetJump()
     {
         readyToJump = true;
@@ -113,6 +98,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Interact()
     {
-        Debug.Log("Interacting with object");
+        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit, interactionRange))
+        {
+            Interactable interactable = hit.collider.GetComponent<Interactable>();
+            if (interactable != null)
+            {
+                interactable.OnInteract();
+            }
+        }
     }
 }
