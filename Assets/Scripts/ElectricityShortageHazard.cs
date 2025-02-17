@@ -8,6 +8,7 @@ public class ElectricityShortageHazard : Hazard
         difficultyLevel = 0;
         hazardDuration = 15;
         isFixed = true;
+        
     }
     public override void TriggerHazard()
     {
