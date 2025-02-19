@@ -86,6 +86,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
+  pistolAnimation: {fileID: 0}
   orientation: {fileID: 3672133070362585956}
   playerCamera: {fileID: 0}
   interactionRange: 3

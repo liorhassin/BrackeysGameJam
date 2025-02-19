@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
     public float playerHeight;
     public LayerMask whatIsGround;
     bool grounded;
+    
+    public PistolAnimations pistolAnimation;
 
     public Transform orientation;
     public Camera playerCamera; // Reference to the player camera
@@ -27,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     float verticalInput;
     Vector3 moveDirection;
     Rigidbody rb;
+
 
     private void Start()
     {
@@ -86,6 +89,13 @@ public class PlayerMovement : MonoBehaviour
             Vector3 limitedVel = flatVel.normalized * moveSpeed;
             rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
         }
+
+        if (flatVel.magnitude > 0.5){
+            pistolAnimation.Walk();
+        }
+        else{
+            pistolAnimation.Stand();
+        }
     }
 
     private void Jump()
@@ -111,4 +121,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
+
 }

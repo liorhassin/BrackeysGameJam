@@ -6,6 +6,8 @@ public class LaptopInteractable : Interactable
     public Camera playerCamera;
     public PlayerMovement playerMovement;
     public PlayerCamera playerCameraScript;
+    public GameObject playerUIDot;
+    public TypingManager typingManager;
     private bool isUsingLaptop = false;
     private Quaternion originalCameraRotation;
     private Vector3 originalCameraPosition;
@@ -36,6 +38,8 @@ public class LaptopInteractable : Interactable
         originalCameraRotation = playerCamera.transform.rotation;
         playerMovement.enabled = false;
         playerCameraScript.enabled = false;
+        playerUIDot.SetActive(false);
+        typingManager.enableTyping();
     }
 
     private void Update()
@@ -57,6 +61,8 @@ public class LaptopInteractable : Interactable
         isUsingLaptop = false;
         StartCoroutine(SmoothReturnToPlayer());
         playerCameraScript.enabled = true;
+        playerUIDot.SetActive(true);
+        typingManager.disableTyping();
     }
 
     private System.Collections.IEnumerator SmoothReturnToPlayer()
