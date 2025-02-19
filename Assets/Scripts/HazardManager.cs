@@ -1,15 +1,22 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
+using System.Collections;
+using TMPro;
 
 public class HazardManager : MonoBehaviour
 {
     public List<Hazard> hazards;
     public float minTimeBetweenHazards;
     public float maxTimeBetweenHazards;
+    public GameObject hazardNotificationPanel;
+    public TMP_Text hazardNotificationText;
 
     private float nextHazardTime;
     public float progress;
     private Hazard lastTriggeredHazard = null;
+
+    public Dictionary<string, GameObject> hazardObjects;
 
     void Start()
     {
@@ -21,9 +28,10 @@ public class HazardManager : MonoBehaviour
         {
             Debug.LogWarning("No hazards found in the scene!");
         }
+        hazardNotificationPanel.SetActive(false);
+        
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Time.time >= nextHazardTime)
@@ -50,11 +58,26 @@ public class HazardManager : MonoBehaviour
             selectedHazard.StartHazard();
             Debug.Log("Hazard Triggered: " + selectedHazard.hazardName);
             lastTriggeredHazard = selectedHazard;
+            ShowHazardNotification(selectedHazard.hazardName);
         }
         else
         {
             Debug.Log("No Hazards Available");
+            lastTriggeredHazard = null;
         }
+    }
+
+    private void ShowHazardNotification(string hazardName)
+    {
+        hazardNotificationText.text = "Hazard: " + hazardName;
+        hazardNotificationPanel.SetActive(true);
+        StartCoroutine(HideHazardNotification());
+    }
+
+    private IEnumerator HideHazardNotification()
+    {
+        yield return new WaitForSeconds(5f);
+        hazardNotificationPanel.SetActive(false);
     }
 
     public void SetProgress(float percentage)

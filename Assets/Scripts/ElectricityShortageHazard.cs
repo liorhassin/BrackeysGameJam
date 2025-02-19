@@ -5,7 +5,7 @@ public class ElectricityShortageHazard : Hazard
     private void Start()
     {
         hazardName = "Electricity Shortage";
-        difficultyLevel = 0;
+        difficultyLevel = 10;
         hazardDuration = 15;
         isFixed = true;
         
