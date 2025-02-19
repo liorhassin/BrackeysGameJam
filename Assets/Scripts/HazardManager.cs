@@ -11,6 +11,7 @@ public class HazardManager : MonoBehaviour
     public float maxTimeBetweenHazards;
     public GameObject hazardNotificationPanel;
     public TMP_Text hazardNotificationText;
+    public GameObject Pistol;
 
     private float nextHazardTime;
     public float progress;
@@ -29,7 +30,7 @@ public class HazardManager : MonoBehaviour
             Debug.LogWarning("No hazards found in the scene!");
         }
         hazardNotificationPanel.SetActive(false);
-        
+        Pistol.SetActive(false);
     }
 
     void Update()

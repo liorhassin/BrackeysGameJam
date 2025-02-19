@@ -7,7 +7,8 @@ public class TypingManager : MonoBehaviour
 {
     public TMP_Text displayText;
     public TMP_Text progressText;
-
+    public GameObject Pistol;
+    
     private string loadedText = "";
     private int currentIndex = 0;
     private int goalIndex = 0;
@@ -15,6 +16,7 @@ public class TypingManager : MonoBehaviour
     private int typingSpeedMultiplier = 10;
     private int typingMaxCap = 10;
     private bool is_active = false;
+    private bool pistol_was_active = false;
 
     void Start()
     {
@@ -68,11 +70,14 @@ public class TypingManager : MonoBehaviour
     public void enableTyping()
     {
         is_active = true;
+        pistol_was_active = Pistol.activeSelf;
+        Pistol.SetActive(false);
     }
 
     public void disableTyping()
     {
         is_active = false;
         goalIndex = currentIndex;
+        Pistol.SetActive(pistol_was_active);
     }
 }

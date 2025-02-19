@@ -6073,6 +6073,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayText: {fileID: 999441755}
   progressText: {fileID: 1640930951}
+  Pistol: {fileID: 1703743521}
 --- !u!4 &721230511
 Transform:
   m_ObjectHideFlags: 0
@@ -24159,6 +24160,7 @@ MonoBehaviour:
   maxTimeBetweenHazards: 0
   hazardNotificationPanel: {fileID: 695923690}
   hazardNotificationText: {fileID: 1480175810}
+  Pistol: {fileID: 1703743521}
   progress: 0
 --- !u!4 &2103459443
 Transform:
