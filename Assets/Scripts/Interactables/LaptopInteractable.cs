@@ -4,7 +4,7 @@ public class LaptopInteractable : Interactable
 {
     public Transform laptopCameraPosition;
     public Camera playerCamera;
-    public PlayerMovement playerMovement;
+    public PlayerController playerMovement;
     public PlayerCamera playerCameraScript;
     public GameObject playerUIDot;
     public TypingManager typingManager;
@@ -18,7 +18,7 @@ public class LaptopInteractable : Interactable
         if (playerCamera == null)
             playerCamera = Camera.main;
         if (playerMovement == null)
-            playerMovement = FindFirstObjectByType<PlayerMovement>();
+            playerMovement = FindFirstObjectByType<PlayerController>();
         if (playerCameraScript == null)
             playerCameraScript = FindFirstObjectByType<PlayerCamera>();
     }
@@ -36,8 +36,8 @@ public class LaptopInteractable : Interactable
         isUsingLaptop = true;
         originalCameraPosition = playerCamera.transform.position;
         originalCameraRotation = playerCamera.transform.rotation;
-        playerMovement.enabled = false;
-        playerCameraScript.enabled = false;
+        playerMovement.AllowMovement(false);
+        playerCameraScript.enable_camera(false);
         playerUIDot.SetActive(false);
         typingManager.enableTyping();
     }
@@ -60,7 +60,7 @@ public class LaptopInteractable : Interactable
     {
         isUsingLaptop = false;
         StartCoroutine(SmoothReturnToPlayer());
-        playerCameraScript.enabled = true;
+        playerCameraScript.enable_camera(true);
         playerUIDot.SetActive(true);
         typingManager.disableTyping();
     }
@@ -73,6 +73,6 @@ public class LaptopInteractable : Interactable
             playerCamera.transform.rotation = Quaternion.Lerp(playerCamera.transform.rotation, originalCameraRotation, Time.deltaTime * transitionSpeed);
             yield return null;
         }
-        playerMovement.enabled = true;
+        playerMovement.AllowMovement(true);
     }
 }
