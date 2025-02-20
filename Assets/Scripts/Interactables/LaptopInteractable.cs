@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class LaptopInteractable : Interactable
 {
@@ -39,6 +40,13 @@ public class LaptopInteractable : Interactable
         playerMovement.AllowMovement(false);
         playerCameraScript.enable_camera(false);
         playerUIDot.SetActive(false);
+        
+        StartCoroutine(EnableTypingWithDelay(0.2f));
+    }
+
+    private IEnumerator EnableTypingWithDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         typingManager.enableTyping();
     }
 
