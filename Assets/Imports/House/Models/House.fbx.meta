@@ -14,6 +14,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Glass
     second: {fileID: 2100000, guid: 7af9a63699835534ca94a1c014e7cfc6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Grass
+    second: {fileID: 2100000, guid: 8a6bc420a938bfb4babee9f6405d9c48, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
