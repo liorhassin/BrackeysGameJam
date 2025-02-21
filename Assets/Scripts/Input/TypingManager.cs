@@ -1,6 +1,4 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class TypingManager : MonoBehaviour
@@ -12,11 +10,12 @@ public class TypingManager : MonoBehaviour
     private string loadedText = "";
     private int currentIndex = 0;
     private int goalIndex = 0;
-    private int charPerFrame = 5;
-    private int typingSpeedMultiplier = 10;
-    private int typingMaxCap = 10;
+    private int charPerFrame = 10;
+    private int typingSpeedMultiplier = 50;
+    private int typingMaxCap = 50;
     private bool is_active = false;
     private bool pistol_was_active = false;
+    private float progress = 0;
 
     void Start()
     {
@@ -34,7 +33,7 @@ public class TypingManager : MonoBehaviour
             displayText.text += loadedText[currentIndex];
             currentIndex++;
         }
-        float progress = (float)currentIndex / loadedText.Length * 100;
+        progress = (float)currentIndex / loadedText.Length * 100;
         progressText.text = progress.ToString("F4") + "%";
 
         if (goalIndex < loadedText.Length && Input.anyKeyDown)
@@ -79,5 +78,9 @@ public class TypingManager : MonoBehaviour
         is_active = false;
         goalIndex = currentIndex;
         Pistol.SetActive(pistol_was_active);
+    }
+
+    public float GetProgress() {
+        return progress;
     }
 }

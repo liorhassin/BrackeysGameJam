@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI; // Required for NavMesh navigation
 using System.Collections;
+using UnityEngine.UI;
 
 public class ZombieControl : MonoBehaviour
 {
@@ -19,6 +20,11 @@ public class ZombieControl : MonoBehaviour
     private float verticalVelocity;
 
     private ZombieAttack zombieAttackScript;
+    
+    //Testing new damage function:
+    private GameObject healthBarGameObject;
+    private Slider playerHealthSlider;
+    
 
     // Enum to represent zombie states
     public enum ZombieState
@@ -43,6 +49,9 @@ public class ZombieControl : MonoBehaviour
             navMeshAgent.speed = walkSpeed;
             navMeshAgent.angularSpeed = 240f; // Make the zombie rotate smoothly towards the player
         }
+
+        healthBarGameObject = GameObject.Find("UICanvas/HealthBar");
+        playerHealthSlider = healthBarGameObject.GetComponent<Slider>();
     }
 
     void Update()
@@ -99,7 +108,7 @@ public class ZombieControl : MonoBehaviour
         Debug.Log("attackkk");
         HealthSystem hpSystem = player.GetComponent<HealthSystem>();
         if (hpSystem != null){
-            hpSystem.Damage(damage);
+            hpSystem.DamageAndUpdateUI(damage, playerHealthSlider);
         }
     }
 
