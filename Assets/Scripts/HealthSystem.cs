@@ -19,12 +19,6 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void Damage(int dmg){
         currHp -= dmg;
         Debug.Log("hit. curr hp: " + currHp);
