@@ -10,9 +10,9 @@ public class TypingManager : MonoBehaviour
     private string loadedText = "";
     private int currentIndex = 0;
     private int goalIndex = 0;
-    private int charPerFrame = 5;
-    private int typingSpeedMultiplier = 10;
-    private int typingMaxCap = 10;
+    private int charPerFrame = 10;
+    private int typingSpeedMultiplier = 50;
+    private int typingMaxCap = 50;
     private bool is_active = false;
     private bool pistol_was_active = false;
     private float progress = 0;

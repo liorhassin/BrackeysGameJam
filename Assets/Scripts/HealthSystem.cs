@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthSystem : MonoBehaviour
 {
@@ -29,24 +30,29 @@ public class HealthSystem : MonoBehaviour
     }
 
     public void Heal(int hp)
-{
-    // Increase current health by the healing amount
-    currHp += hp;
+     {
+         // Increase current health by the healing amount
+         currHp += hp;
+ 
+         // Ensure current health doesn't exceed max health
+         if (currHp > maxHp)
+         {
+             currHp = maxHp;
+         }
+ 
+         Debug.Log("healed. curr hp: " + currHp);
+ 
+         // If the character was previously dead and is now healed, mark them as alive
+         if (isDead && currHp > 0)
+         {
+             isDead = false;
+             Debug.Log("Healed and revived!");
+         }
+     }
 
-    // Ensure current health doesn't exceed max health
-    if (currHp > maxHp)
-    {
-        currHp = maxHp;
+    public void DamageAndUpdateUI(int damage, Slider healthSlider) {
+        Damage(damage);
+        healthSlider.value = (float)currHp / maxHp;
     }
-
-    Debug.Log("healed. curr hp: " + currHp);
-
-    // If the character was previously dead and is now healed, mark them as alive
-    if (isDead && currHp > 0)
-    {
-        isDead = false;
-        Debug.Log("Healed and revived!");
-    }
-}
 
 }

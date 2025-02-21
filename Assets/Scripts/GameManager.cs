@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
+using Cursor = UnityEngine.Cursor;
 
 public class GameManager : MonoBehaviour {
     [SerializeField] private GameObject playerGameObject;
@@ -7,7 +9,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private GameObject typingManagerGameObject;
     [SerializeField] private GameObject endGameUIGameObject;
     [SerializeField] private GameObject uiCanvas;
-    
+
     private HazardManager hazardManager;
     private TypingManager typingManager;
     private HealthSystem playerHealth;
@@ -18,6 +20,7 @@ public class GameManager : MonoBehaviour {
         typingManager = typingManagerGameObject.GetComponent<TypingManager>();
         playerHealth = playerGameObject.GetComponent<HealthSystem>();
         endGameUIManager = endGameUIGameObject.GetComponent<EndGameUIManager>();
+        
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -29,12 +32,12 @@ public class GameManager : MonoBehaviour {
         
         if (playerHealth.isDead) {
             uiCanvas.SetActive(false);
-            endGameUIManager.ShowEndGameScreen(true, progress);
+            endGameUIManager.ShowEndGameScreen(false, progress);
         }
 
         if (Mathf.Approximately(progress, 100f)) {
             uiCanvas.SetActive(false);
-            endGameUIManager.ShowEndGameScreen(false, progress);
+            endGameUIManager.ShowEndGameScreen(true, progress);
         }
     }
 }
