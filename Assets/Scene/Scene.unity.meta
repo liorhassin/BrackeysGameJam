@@ -1,15 +1,7 @@
 fileFormatVersion: 2
 guid: 0241f2f3211205f41a016ac946470e4a
-timeCreated: 1525634448
-licenseType: Store
 DefaultImporter:
+  externalObjects: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 118266
-  packageName: Electrical shield
-  packageVersion: 1.1
-  assetPath: Assets/Scene/Scene.unity
-  uploadId: 341234

@@ -24,6 +24,9 @@ public class PlayerController : MonoBehaviour
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
     public KeyCode interactKey = KeyCode.E;
+
+    [Header("Interactable")]
+    private Interactable currentInteractable;
     
     private float verticalVelocity;
     private Vector3 currentMoveDirection; // Stores movement for deceleration
@@ -77,6 +80,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        DetectInteractable();
+
         if (movementAllowed)
         {
             InputManagement();
@@ -117,5 +122,45 @@ public class PlayerController : MonoBehaviour
         currentMoveDirection.y = verticalVelocity;
 
         controller.Move(currentMoveDirection * Time.deltaTime);
+    }
+
+    private void DetectInteractable()
+    {
+        // Perform a raycast from the camera
+        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit, interactionRange))
+        {
+            Interactable interactable = hit.collider.GetComponent<Interactable>();
+
+            if (interactable != null)
+            {
+                // If the player is looking at a new interactable, disable the old one first
+                if (currentInteractable != interactable)
+                {
+                    DisableCurrentInteractable();
+                    currentInteractable = interactable;
+                    currentInteractable.EnableOutline();
+                }
+            }
+            else
+            {
+                // No interactable detected, disable the outline
+                DisableCurrentInteractable();
+            }
+        }
+        else
+        {
+            // If nothing is hit, disable any active outline
+            DisableCurrentInteractable();
+        }
+    }
+
+    private void DisableCurrentInteractable()
+    {
+        if (currentInteractable != null)
+        {
+            currentInteractable.DisableOutline();
+            currentInteractable = null;
+        }
     }
 }

@@ -15,7 +15,7 @@ public class HighlightManager : MonoBehaviour
             Destroy(gameObject);
     }
 
-    private Outline GetOrCreateOutline(GameObject obj, Color color)
+    private Outline GetOrCreateOutline(GameObject obj, Color color, float outlineWidth=5f)
     {
         if (!outlines.ContainsKey(obj))
         {
@@ -24,7 +24,7 @@ public class HighlightManager : MonoBehaviour
             {
                 outline = obj.AddComponent<Outline>(); // Add Quick Outline if missing
                 outline.OutlineMode = Outline.Mode.OutlineAll;
-                outline.OutlineWidth = 5f; // Adjust width
+                outline.OutlineWidth = outlineWidth; // Adjust width
             }
             outline.OutlineColor = color;
             outlines[obj] = outline;
@@ -32,15 +32,21 @@ public class HighlightManager : MonoBehaviour
         return outlines[obj];
     }
 
-    public void HighlightObjectWhite(GameObject obj)
+    public void HighlightObjectWhite(GameObject obj, float outlineWidth=5f)
     {
         Outline outline = GetOrCreateOutline(obj, Color.white);
         outline.enabled = true;
     }
 
-    public void HighlightObjectRed(GameObject obj)
+    public void HighlightObjectRed(GameObject obj, float outlineWidth=5f)
     {
         Outline outline = GetOrCreateOutline(obj, Color.red);
+        outline.enabled = true;
+    }
+
+    public void HighlightObject(GameObject obj, Color color, float outlineWidth=5f)
+    {
+        Outline outline = GetOrCreateOutline(obj, color);
         outline.enabled = true;
     }
 

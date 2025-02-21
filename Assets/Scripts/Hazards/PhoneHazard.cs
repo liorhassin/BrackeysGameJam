@@ -27,7 +27,6 @@ public class PhoneHazard : Hazard
     {
         isFixed = true;
         Debug.Log("✅ Phone call ended.");
-
     }
 
     public override void ApplyFailure()
