@@ -136,8 +136,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  interactionRange: 3
-  walkSpeed: 1.5
+  interactionRange: 2
+  destroyTime: 20
+  walkSpeed: 3
   currentState: 0
 --- !u!195 &6324104089075424629
 NavMeshAgent:

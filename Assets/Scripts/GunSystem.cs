@@ -83,6 +83,10 @@ public class GunSystem : MonoBehaviour
         if (Physics.Raycast(fpsCam.transform.position, direction, out rayHit, range, whatIsEnemy))
         {
             Debug.Log(rayHit.collider.name);
+            // Instantiate the bullet hole at the hit point
+            GameObject bulletHole = Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.LookRotation(rayHit.normal));
+            // If the hit object is movable (has a Rigidbody), make the bullet hole a child of that object
+            bulletHole.transform.SetParent(rayHit.collider.transform);
 
             // If we hit an enemy, deal damage
             if (rayHit.collider.CompareTag("Enemy"))
@@ -92,22 +96,16 @@ public class GunSystem : MonoBehaviour
                 {
                     hpSystem.Damage(damage);
                 }
+                
+                Destroy(bulletHole, 0.2f); // Destroy after 0.2 seconds
             }
-
-            // Instantiate the bullet hole at the hit point
-            GameObject bulletHole = Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.Euler(0, 180, 0));
-
-            // If the hit object is movable (has a Rigidbody), make the bullet hole a child of that object
-
-            bulletHole.transform.SetParent(rayHit.collider.transform);
         }
 
         // Reuse the muzzle flash instead of instantiating a new one
-        muzzleInstance.SetActive(true);  // Activate the muzzle flash
-        muzzleInstance.transform.position = attackPoint.position;  // Reposition to attack point
-        muzzleInstance.transform.rotation = attackPoint.rotation;  // Reposition rotation
+        muzzleInstance.SetActive(true);
+        muzzleInstance.transform.position = attackPoint.position;
+        muzzleInstance.transform.rotation = attackPoint.rotation;
 
-        // Optional: Reset the muzzle flash after a short delay
         Invoke("ResetMuzzleFlash", 0.1f);
 
         bulletsLeft--;
