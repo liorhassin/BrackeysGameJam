@@ -3321,7 +3321,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &491347082
 Transform:
   m_ObjectHideFlags: 0
@@ -3357,6 +3357,7 @@ MonoBehaviour:
   itemsToHighlightGreen:
   - {fileID: 358625431}
   itemsToHighlightRed: []
+  highlightManager: {fileID: 0}
   phoneRingSound: {fileID: 8300000, guid: 35fb7e167c5db1149baa95533a1c6e75, type: 3}
 --- !u!64 &495846727
 MeshCollider:
@@ -3501,9 +3502,10 @@ GameObject:
   - component: {fileID: 512593692}
   - component: {fileID: 512593691}
   - component: {fileID: 512593693}
+  - component: {fileID: 512593694}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3574,6 +3576,20 @@ MonoBehaviour:
   decelerationRate: 8
   jumpKey: 32
   interactKey: 101
+--- !u!114 &512593694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 512593689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d37b0360ac687a147bf7f6b32c5cb6d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 5
+  isDead: 0
 --- !u!1 &514560678 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6488207570149361417, guid: 85613a3a0f37dab48bc7c0408ab0ca41, type: 3}
@@ -4123,13 +4139,13 @@ MonoBehaviour:
   isFixed: 1
   itemsToHighlightGreen: []
   itemsToHighlightRed: []
+  highlightManager: {fileID: 0}
   zombiePrefab: {fileID: 1946401730165618870, guid: 79b080a89136f9a4b994383689c00de9, type: 3}
   spawnPointsParent: {fileID: 2030859962}
   numberOfZombies: 5
   spawnInterval: 3
   pistol: {fileID: 2074366213}
   player: {fileID: 512593692}
-  highlightManager: {fileID: 179221783}
 --- !u!64 &569999531
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6273,7 +6289,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &839615789
 Transform:
   m_ObjectHideFlags: 0
@@ -6311,6 +6327,7 @@ MonoBehaviour:
   - {fileID: 5031133495774549742}
   itemsToHighlightRed:
   - {fileID: 1264444644288962}
+  highlightManager: {fileID: 0}
   ghostEffect: {fileID: 1264444644288962}
   ghostSound: {fileID: 0}
 --- !u!64 &839691912
@@ -7199,7 +7216,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &966315432
 Transform:
   m_ObjectHideFlags: 0
@@ -7235,6 +7252,7 @@ MonoBehaviour:
   itemsToHighlightGreen:
   - {fileID: 514560678}
   itemsToHighlightRed: []
+  highlightManager: {fileID: 0}
 --- !u!64 &969823203
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -8898,6 +8916,7 @@ MonoBehaviour:
   itemsToHighlightGreen:
   - {fileID: 919132149083412524}
   itemsToHighlightRed: []
+  highlightManager: {fileID: 0}
   fire: {fileID: 98770443}
 --- !u!64 &1167993619
 MeshCollider:
@@ -12454,7 +12473,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1723800397
 Transform:
   m_ObjectHideFlags: 0

@@ -12,8 +12,6 @@ public class ZombieAttack : Hazard
 
     private Transform[] spawnPoints;  // Array to store spawn points
     private int zombiesAlive;  // Counter to track how many zombies are alive
-    
-    public HighlightManager highlightManager;
 
     private void Start()
     {
@@ -46,6 +44,7 @@ public class ZombieAttack : Hazard
     {
         isFixed = true;
         Debug.Log("✅ All Zombies Died");
+        player.GetComponent<HealthSystem>().Heal(int.MaxValue);
         finish();
     }
 
@@ -64,8 +63,6 @@ public class ZombieAttack : Hazard
 
     private IEnumerator SpawnZombiesOverTime()
     {
-        zombiesAlive = numberOfZombies;  // Initialize zombiesAlive counter
-
         int zombiesSpawned = 0;
 
         while (zombiesSpawned < numberOfZombies)
@@ -85,9 +82,16 @@ public class ZombieAttack : Hazard
             highlightManager.HighlightObject(spawnedZombie, Color.red, 2f);
 
             zombiesSpawned++;
+            zombiesAlive++;
 
             // Wait for the specified spawn interval before spawning the next zombie
             yield return new WaitForSeconds(spawnInterval);
+        }
+    }
+
+    private void Update(){
+        if (zombiesAlive > 0 && !pistol.activeInHierarchy){
+            pistol.SetActive(true);
         }
     }
 

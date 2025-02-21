@@ -8,9 +8,11 @@ public class ZombieControl : MonoBehaviour
     private NavMeshAgent navMeshAgent; // Pathfinding
     private Animation animator; // Animator for handling animations
     private HealthSystem hpSys;
-    public Transform player; // Assign in Inspector
+    public Transform player;
     public float interactionRange = 3f;
     public float destroyTime = 20f;
+
+    private int damage = 1;
 
     [Header("Movement Settings")]
     [SerializeField] private float walkSpeed = 3.5f;
@@ -34,6 +36,7 @@ public class ZombieControl : MonoBehaviour
         animator = GetComponent<Animation>(); // Get the Animator component
         hpSys =  GetComponent<HealthSystem>();
         zombieAttackScript = GetComponentInParent<ZombieAttack>();
+        animator["Walk"].speed = 2f;
 
         if (navMeshAgent != null)
         {
@@ -58,9 +61,15 @@ public class ZombieControl : MonoBehaviour
         {
             case ZombieState.Walk:
                 navMeshAgent.destination = player.position;
+                navMeshAgent.speed = walkSpeed;
                 break;
             case ZombieState.Attack:
-                AttackPlayer();
+                if (!animator.IsPlaying("Attack1")) // Check if Attack1 animation has finished
+                {
+                    navMeshAgent.speed = 0f;
+                    animator.Play("Attack1");
+                    AttackPlayer();
+                }
                 break;
             case ZombieState.Dead:
                 break;
@@ -72,18 +81,14 @@ public class ZombieControl : MonoBehaviour
         if (player == null) return;
 
         float distance = Vector3.Distance(transform.position, player.position);
-        Debug.Log("1");
 
         if (distance <= interactionRange && currentState != ZombieState.Dead)
         {
-            Debug.Log("2");
             currentState = ZombieState.Attack; // Switch to attack state if in range
             Debug.Log("Player detected! Preparing to attack.");
-            animator.Play("Attack1"); // Play attack animation
         }
         else if (distance > interactionRange && currentState != ZombieState.Dead)
         {
-            Debug.Log("3");
             currentState = ZombieState.Walk; // Switch to walk state if not attacking
             animator.Play("Walk"); // Play walk animation
         }
@@ -91,20 +96,36 @@ public class ZombieControl : MonoBehaviour
 
     private void AttackPlayer()
     {
-        // For simplicity, just switch to attack animation when in range
-        // Add logic for applying damage to player or other effects
-        return;
+        Debug.Log("attackkk");
+        HealthSystem hpSystem = player.GetComponent<HealthSystem>();
+        if (hpSystem != null){
+            hpSystem.Damage(damage);
+        }
     }
 
     public void Die() 
     {
         currentState = ZombieState.Dead; // Switch to dead state
+        
+        // Disable the collider to avoid the player getting stuck
+        Collider collider = GetComponent<Collider>();
+        if (collider != null)
+        {
+            collider.enabled = false; // Disable the collider
+        }
+
+        // Optionally, you can also disable the ZombieControl script if needed
+        this.enabled = false; // Disables the entire script
+        
         if (zombieAttackScript != null)
         {
             zombieAttackScript.OnZombieDied(gameObject);
         }
-        StartCoroutine(DestroyAfterDeath(destroyTime));
+        
+        StartCoroutine(DestroyAfterDeath(destroyTime)); // Start countdown to destroy zombie after death
     }
+
+
 
     private IEnumerator DestroyAfterDeath(float time)
     {

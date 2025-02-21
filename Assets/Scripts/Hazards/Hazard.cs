@@ -9,7 +9,7 @@ public abstract class Hazard : MonoBehaviour
     public GameObject[] itemsToHighlightGreen;
     public GameObject[] itemsToHighlightRed;
 
-    private HighlightManager highlightManager;
+    public HighlightManager highlightManager;
 
     private void Awake()
     {

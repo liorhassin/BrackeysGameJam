@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
+using System.Linq;
 
 public class HazardManager : MonoBehaviour
 {
@@ -24,14 +25,19 @@ public class HazardManager : MonoBehaviour
         minTimeBetweenHazards = 10f;
         maxTimeBetweenHazards = 30f;
         nextHazardTime = 10f;
-        hazards.AddRange(FindObjectsByType<Hazard>(FindObjectsSortMode.None));
+
+        // Find all hazards and filter out the disabled ones
+        hazards.AddRange(FindObjectsByType<Hazard>(FindObjectsSortMode.None).Where(h => h.gameObject.activeInHierarchy).ToList());
+
         if (hazards.Count == 0)
         {
             Debug.LogWarning("No hazards found in the scene!");
         }
+
         hazardNotificationPanel.SetActive(false);
         Pistol.SetActive(false);
     }
+
 
     void Update()
     {
