@@ -24,6 +24,7 @@ public class EndGameUIManager : MonoBehaviour {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         gameObject.SetActive(true);
+        Time.timeScale = 0f;
     }
 
     private void HideEndGameScreen() {
@@ -32,7 +33,7 @@ public class EndGameUIManager : MonoBehaviour {
 
     private void RestartGame() {
         HideEndGameScreen();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void GoToMainMenu() {

@@ -8,7 +8,7 @@ public class ParanormalHazard : Hazard
     private void Start()
     {
         hazardName = "Paranormal Activity";
-        difficultyLevel = 5; 
+        difficultyLevel = 10; 
         hazardDuration = 20;
         isFixed = true;
 
