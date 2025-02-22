@@ -111,4 +111,10 @@ public class DemonControl : MonoBehaviour
 
         currentState = State.Dead;
     }
+
+    public void Reset()
+    {
+        currentState = State.Walk; // Default state is Walk
+        attacked = false;
+    }
 }

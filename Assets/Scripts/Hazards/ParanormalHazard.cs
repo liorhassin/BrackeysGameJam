@@ -22,16 +22,17 @@ public class ParanormalHazard : Hazard
     public override void TriggerHazard()
     {
         isFixed = false;
-        crossInteractable.active = true;
         Debug.Log("👻 Paranormal activity detected! The demons are here!");
 
+        crossInteractable.active = true;
         crossInteractable.gameObject.SetActive(true);
 
         if (ghostEffect != null)
         {
+            ghostEffect.gameObject.transform.position = startPos.transform.position;
+            ghostEffect.Reset();
             ghostEffect.gameObject.SetActive(true); 
             ghostEffect.fire.Stop();
-            ghostEffect.gameObject.transform.position = startPos.transform.position;
         }
 
         if (ghostSound != null && AudioManager.instance != null)

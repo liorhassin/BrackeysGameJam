@@ -5629,7 +5629,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hazardName: Bomb
-  difficultyLevel: 0
+  difficultyLevel: 80
   hazardDuration: 120
   isFixed: 0
   itemsToHighlightGreen:
@@ -7482,7 +7482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hazardName: Zombie Attack
-  difficultyLevel: 0
+  difficultyLevel: 50
   hazardDuration: 0
   isFixed: 1
   itemsToHighlightGreen: []
@@ -11322,7 +11322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hazardName: A Demon Is Coming To Kill You! Find The Cross And Show It To Him!
-  difficultyLevel: 0
+  difficultyLevel: 20
   hazardDuration: 120
   isFixed: 1
   itemsToHighlightGreen:
@@ -16489,7 +16489,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.003412905, y: 0.0008068203}
+  m_AnchoredPosition: {x: 0.003412905, y: 0.00081001484}
   m_SizeDelta: {x: 0, y: 379.63}
   m_Pivot: {x: 0, y: 1}
 --- !u!64 &1063000966
@@ -17731,7 +17731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hazardName: 
-  difficultyLevel: 0
+  difficultyLevel: 50
   hazardDuration: 120
   isFixed: 0
   itemsToHighlightGreen:
