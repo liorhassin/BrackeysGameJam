@@ -16,7 +16,6 @@ public class ZombieAttack : Hazard
     private void Start()
     {
         hazardName = "Zombie Attack!";
-        difficultyLevel = 25;
         hazardDuration = 3000;
         isFixed = true;
 
@@ -42,23 +41,13 @@ public class ZombieAttack : Hazard
 
     public override void CleanupHazard()
     {
-        isFixed = true;
-        Debug.Log("✅ All Zombies Died");
-        player.GetComponent<HealthSystem>().Heal(int.MaxValue);
-        finish();
+        player.GetComponent<HealthSystem>().Heal(100);
+        pistol.SetActive(false);
     }
 
     public override void ApplyFailure()
     {
         Debug.Log("You Are Dead");
-        finish();
-    }
-
-    private void finish()
-    {
-        // Additional code for finishing, if needed
-        pistol.SetActive(false);
-        return;
     }
 
     private IEnumerator SpawnZombiesOverTime()
@@ -104,7 +93,7 @@ public class ZombieAttack : Hazard
         if (zombiesAlive <= 0)
         {
             Debug.Log("All zombies are dead!");
-            CleanupHazard();  // Trigger hazard cleanup
+            ResolveHazard();
         }
     }
 }

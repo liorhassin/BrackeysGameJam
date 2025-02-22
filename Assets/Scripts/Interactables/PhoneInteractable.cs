@@ -5,7 +5,7 @@ public class PhoneInteractable : Interactable
     public override void OnInteract()
     {
         PhoneHazard activeHazard = FindAnyObjectByType<PhoneHazard>();
-        
+
         if (activeHazard != null && !activeHazard.isFixed)
         {
             activeHazard.ResolveHazard();

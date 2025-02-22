@@ -47,7 +47,9 @@ public class LaptopInteractable : Interactable
     private IEnumerator EnableTypingWithDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        typingManager.enableTyping();
+        if (typingManager != null){
+            typingManager.EnableTyping();
+        }
     }
 
     private void Update()
@@ -70,7 +72,9 @@ public class LaptopInteractable : Interactable
         StartCoroutine(SmoothReturnToPlayer());
         playerCameraScript.enable_camera(true);
         playerUIDot.SetActive(true);
-        typingManager.disableTyping();
+        if (typingManager != null){
+            typingManager.DisableTyping();
+        }
     }
 
     private System.Collections.IEnumerator SmoothReturnToPlayer()

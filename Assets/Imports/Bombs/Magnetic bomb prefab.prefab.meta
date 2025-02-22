@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: bd2d85ce56936e44eb03df76a798586e
+labels:
+- Bomb
+- Explosive
+- Magnetic
+- Prop
+- Weapon
+- Metal
+- C4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

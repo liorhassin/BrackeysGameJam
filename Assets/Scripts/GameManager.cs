@@ -11,13 +11,13 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private GameObject uiCanvas;
 
     private HazardManager hazardManager;
-    private TypingManager typingManager;
+    private LaptopManager typingManager;
     private HealthSystem playerHealth;
     private EndGameUIManager endGameUIManager;
     void Start()
     {
         hazardManager = hazardManagerGameObject.GetComponent<HazardManager>();
-        typingManager = typingManagerGameObject.GetComponent<TypingManager>();
+        typingManager = typingManagerGameObject.GetComponent<LaptopManager>();
         playerHealth = playerGameObject.GetComponent<HealthSystem>();
         endGameUIManager = endGameUIGameObject.GetComponent<EndGameUIManager>();
         

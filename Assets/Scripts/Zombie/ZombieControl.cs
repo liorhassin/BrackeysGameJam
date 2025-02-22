@@ -12,12 +12,13 @@ public class ZombieControl : MonoBehaviour
     public Transform player;
     public float interactionRange = 3f;
     public float destroyTime = 20f;
+    public AudioSource audioSource;
+    public AudioClip[] zombieSounds;
 
     private int damage = 1;
 
     [Header("Movement Settings")]
     [SerializeField] private float walkSpeed = 3.5f;
-    private float verticalVelocity;
 
     private ZombieAttack zombieAttackScript;
     
@@ -52,6 +53,8 @@ public class ZombieControl : MonoBehaviour
 
         healthBarGameObject = GameObject.Find("UICanvas/HealthBar");
         playerHealthSlider = healthBarGameObject.GetComponent<Slider>();
+
+        StartCoroutine(PlayRandomSound());
     }
 
     void Update()
@@ -69,7 +72,12 @@ public class ZombieControl : MonoBehaviour
         switch (currentState)
         {
             case ZombieState.Walk:
-                navMeshAgent.destination = player.position;
+                Vector3 closestPoint;
+                if (FindClosestPointOnNavMesh(player.position, out closestPoint))
+                {
+                    Debug.Log("Closest NavMesh Point: " + closestPoint);
+                }
+                navMeshAgent.destination = closestPoint;
                 navMeshAgent.speed = walkSpeed;
                 break;
             case ZombieState.Attack:
@@ -145,5 +153,30 @@ public class ZombieControl : MonoBehaviour
         Destroy(gameObject);
     }
 
-    // You can call the Die method from other parts of the game when the zombie dies
+    IEnumerator PlayRandomSound()
+    {
+        while (true && currentState != ZombieState.Dead)
+        {
+            yield return new WaitForSeconds(Random.Range(5f, 10f)); // Wait 5-10 sec
+
+            if (zombieSounds.Length > 0 && currentState != ZombieState.Dead)
+            {
+                AudioClip clip = zombieSounds[Random.Range(0, zombieSounds.Length)]; // Pick random sound
+                audioSource.PlayOneShot(clip); // Play sound
+            }
+        }
+    }
+
+    bool FindClosestPointOnNavMesh(Vector3 position, out Vector3 closestPoint)
+    {
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(position, out hit, 10f, NavMesh.AllAreas))
+        {
+            closestPoint = hit.position;
+            return true;
+        }
+
+        closestPoint = Vector3.zero;
+        return false;
+    }
 }

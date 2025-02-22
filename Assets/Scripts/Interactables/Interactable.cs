@@ -4,6 +4,8 @@ using UnityEngine;
 public abstract class Interactable : MonoBehaviour
 {
     private Outline outline;
+    public AudioSource interactAudio;
+    public bool active = true;
 
     private void Awake()
     {
@@ -21,11 +23,20 @@ public abstract class Interactable : MonoBehaviour
 
         // Disable the outline initially
         outline.enabled = false;
+
+        if (interactAudio != null){
+            interactAudio.loop = false;
+            interactAudio.playOnAwake = false;
+        }
     }
 
     // Enable the outline when the player looks at the object
     public void EnableOutline()
     {
+        if (!active){
+            return;
+        }
+        
         if (outline != null)
         {
             outline.enabled = true;
@@ -38,6 +49,15 @@ public abstract class Interactable : MonoBehaviour
         if (outline != null)
         {
             outline.enabled = false;
+        }
+    }
+
+    public void Interact(){
+        if (active){
+            OnInteract();
+            if (interactAudio != null){
+                interactAudio.Play();
+            }
         }
     }
 

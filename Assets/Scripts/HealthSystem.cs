@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class HealthSystem : MonoBehaviour
 {
 
-    public int maxHp;
+    public int maxHp = 3;
     public bool isDead = false;
     
     private int currHp;
