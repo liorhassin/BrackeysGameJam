@@ -2,14 +2,15 @@ using UnityEngine;
 
 public class PhoneHazard : Hazard
 {
-    public AudioClip phoneRingSound;
+    public AudioSource phoneRingSound;
+    public Interactable phone;
 
     private void Start()
     {
         hazardName = "Phone Ringing";
         difficultyLevel = 0; 
-        hazardDuration = 15;
         isFixed = true;
+        phone.active = false;
     }
 
     public override void TriggerHazard()
@@ -17,15 +18,20 @@ public class PhoneHazard : Hazard
         isFixed = false;
         Debug.Log("☎️ The phone is ringing! Answer it before it's too late.");
 
-        if (phoneRingSound != null && AudioManager.instance != null)
+        phone.active = true;
+
+        if (phoneRingSound != null)
         {
-            AudioManager.instance.PlaySFX(phoneRingSound);
+            Debug.Log("play phone ring");
+            phoneRingSound.Play();
         }
     }
 
     public override void CleanupHazard()
     {
         isFixed = true;
+        phoneRingSound.Stop();
+        phone.active = false;
         Debug.Log("✅ Phone call ended.");
     }
 

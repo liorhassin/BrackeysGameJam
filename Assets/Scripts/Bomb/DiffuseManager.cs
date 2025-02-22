@@ -5,6 +5,7 @@ using UnityEngine;
 public class DiffuseManager : TypingManager
 {
     public TMP_InputField[] answerFields; // Assign in Inspector
+
     private int[] answers = { 2, 56, 2, 20, 17 };
     private int currentIndex = 0;
     private bool isActive = false;

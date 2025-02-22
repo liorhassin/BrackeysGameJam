@@ -9,6 +9,9 @@ public class BombHazzard : Hazard
     public GameObject bomb;
     public DiffuseManager diffuseManager;
 
+    public AudioSource beepSound;
+    public AudioSource boomSound;
+
     private bool triggered = false;
 
     void Start()
@@ -44,6 +47,7 @@ public class BombHazzard : Hazard
     {
         Debug.Log("kill player");
         playerHp.Damage(int.MaxValue); // Instant failure (player dies)
+        boomSound.Play();
         CleanupHazard();
     }
 
@@ -51,6 +55,7 @@ public class BombHazzard : Hazard
     {
         DisableHighlights();
         triggered = false;
+        beepSound.Stop();
     }
 
     public override void TriggerHazard()
@@ -60,5 +65,6 @@ public class BombHazzard : Hazard
         triggered = true;
         isFixed = false;
         diffuseManager.isSolved = false;
+        beepSound.Play();
     }
 }

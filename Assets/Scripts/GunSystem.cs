@@ -21,6 +21,8 @@ public class GunSystem : MonoBehaviour
     public Transform attackPoint;
     public RaycastHit rayHit;
     public LayerMask whatIsEnemy;
+    public AudioSource shotSound;
+    public AudioClip shotClip;
 
     //Graphics
     public GameObject muzzleFlash, bulletHoleGraphic;
@@ -53,8 +55,6 @@ public class GunSystem : MonoBehaviour
         if (allowButtonHold) shooting = Input.GetKey(KeyCode.Mouse0);
         else shooting = Input.GetKeyDown(KeyCode.Mouse0);
 
-        if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !reloading) Reload();
-
         // Shoot
         if (readyToShoot && shooting && !reloading && bulletsLeft > 0)
         {
@@ -70,6 +70,10 @@ public class GunSystem : MonoBehaviour
         if (pistolAnimation != null)
         {
             pistolAnimation.Shoot();
+        }
+
+        if (shotSound != null && shotClip != null){
+            shotSound.PlayOneShot(shotClip);
         }
 
         // Spread

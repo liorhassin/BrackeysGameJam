@@ -2,30 +2,36 @@ using UnityEngine;
 
 public class ParanormalHazard : Hazard
 {
-    public GameObject ghostEffect; 
+    public DemonControl ghostEffect; 
     public AudioClip ghostSound;  
+    public CrossItem crossItem;
+    public CrossInteractable crossInteractable;
+    public Transform startPos;
 
     private void Start()
     {
-        hazardName = "Paranormal Activity";
-        difficultyLevel = 0; 
-        hazardDuration = 20;
         isFixed = true;
+        crossInteractable.active = false;
 
-        if (ghostEffect != null)
+        if (ghostEffect.gameObject != null)
         {
-            ghostEffect.SetActive(false); 
+            ghostEffect.gameObject.SetActive(false); 
         }
     }
 
     public override void TriggerHazard()
     {
         isFixed = false;
+        crossInteractable.active = true;
         Debug.Log("👻 Paranormal activity detected! The demons are here!");
+
+        crossInteractable.gameObject.SetActive(true);
 
         if (ghostEffect != null)
         {
-            ghostEffect.SetActive(true); 
+            ghostEffect.gameObject.SetActive(true); 
+            ghostEffect.fire.Stop();
+            ghostEffect.gameObject.transform.position = startPos.transform.position;
         }
 
         if (ghostSound != null && AudioManager.instance != null)
@@ -34,19 +40,35 @@ public class ParanormalHazard : Hazard
         }
     }
 
+    public void Update()
+    {
+        if (ghostEffect.currentState == DemonControl.State.Dead){
+            ResolveHazard();
+        }
+    }
+
     public override void CleanupHazard()
     {
-        isFixed = true;
         Debug.Log("✝️ The demons have been banished!");
 
-        if (ghostEffect != null)
+        if (ghostEffect.gameObject != null)
         {
-            ghostEffect.SetActive(false); 
+            ghostEffect.fire.Stop();
+            ghostEffect.gameObject.SetActive(false); 
         }
+
+        if (crossItem.gameObject != null){
+            crossItem.gameObject.SetActive(false);
+        }
+
+        crossInteractable.active = false;
     }
 
     public override void ApplyFailure()
     {
         Debug.Log("😱 The demons consumed your soul! You lost the game.");
+        if (crossItem != null){
+            crossItem.gameObject.SetActive(false);
+        }
     }
 }

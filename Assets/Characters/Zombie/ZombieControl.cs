@@ -11,12 +11,13 @@ public class ZombieControl : MonoBehaviour
     public Transform player;
     public float interactionRange = 3f;
     public float destroyTime = 20f;
+    public AudioSource audioSource;
+    public AudioClip[] zombieSounds;
 
     private int damage = 1;
 
     [Header("Movement Settings")]
     [SerializeField] private float walkSpeed = 3.5f;
-    private float verticalVelocity;
 
     private ZombieAttack zombieAttackScript;
 
@@ -43,6 +44,8 @@ public class ZombieControl : MonoBehaviour
             navMeshAgent.speed = walkSpeed;
             navMeshAgent.angularSpeed = 240f; // Make the zombie rotate smoothly towards the player
         }
+
+        StartCoroutine(PlayRandomSound());
     }
 
     void Update()
@@ -136,5 +139,17 @@ public class ZombieControl : MonoBehaviour
         Destroy(gameObject);
     }
 
-    // You can call the Die method from other parts of the game when the zombie dies
+    IEnumerator PlayRandomSound()
+    {
+        while (true && currentState != ZombieState.Dead)
+        {
+            yield return new WaitForSeconds(Random.Range(5f, 10f)); // Wait 5-10 sec
+
+            if (zombieSounds.Length > 0 && currentState != ZombieState.Dead)
+            {
+                AudioClip clip = zombieSounds[Random.Range(0, zombieSounds.Length)]; // Pick random sound
+                audioSource.PlayOneShot(clip); // Play sound
+            }
+        }
+    }
 }

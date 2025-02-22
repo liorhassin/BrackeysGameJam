@@ -33,7 +33,7 @@ public abstract class Hazard : MonoBehaviour
         // Iterate through the red-highlight array and call the highlight function
         foreach (GameObject item in itemsToHighlightRed)
         {
-            highlightManager.HighlightObjectRed(item);
+            highlightManager.HighlightObject(item, Color.red, 2f);
         }
     }
 
