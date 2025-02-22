@@ -16,7 +16,7 @@ public class ZombieAttack : Hazard
     private void Start()
     {
         hazardName = "Zombie Attack!";
-        difficultyLevel = 0;
+        difficultyLevel = 25;
         hazardDuration = 3000;
         isFixed = true;
 

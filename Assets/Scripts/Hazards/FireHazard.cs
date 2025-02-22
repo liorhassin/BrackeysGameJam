@@ -6,7 +6,7 @@ public class FireHazard : Hazard
     private void Start()
     {
         hazardName = "House on Fire";
-        difficultyLevel = 10;
+        difficultyLevel = 15;
         hazardDuration = 15;
         isFixed = true;
         fire.SetActive(false);

@@ -22,9 +22,9 @@ public class HazardManager : MonoBehaviour
 
     void Start()
     {
-        minTimeBetweenHazards = 10f;
-        maxTimeBetweenHazards = 30f;
-        nextHazardTime = 10f;
+        minTimeBetweenHazards = 20f;
+        maxTimeBetweenHazards = 60f;
+        nextHazardTime = 20f;
 
         // Find all hazards and filter out the disabled ones
         hazards.AddRange(FindObjectsByType<Hazard>(FindObjectsSortMode.None).Where(h => h.gameObject.activeInHierarchy).ToList());
