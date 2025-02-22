@@ -11,7 +11,8 @@ public class PlayerCamera : MonoBehaviour
 
     private bool camera_enabled = true;
 
-    public void enable_camera(bool b){
+    public void enable_camera(bool b)
+    {
         camera_enabled = b;
     }
 
@@ -24,7 +25,8 @@ public class PlayerCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!camera_enabled){
+        if (!camera_enabled)
+        {
             return;
         }
         float mouseX = Input.GetAxisRaw("Mouse X") * mouseSensitivityX * Time.deltaTime;
@@ -35,5 +37,11 @@ public class PlayerCamera : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
         orientation.rotation = Quaternion.Euler(0f, yRotation, 0f);
+    }
+
+    public void SetSensitivity(float sen)
+    {
+        mouseSensitivityX = sen * 400f;
+        mouseSensitivityY = sen * 400f;
     }
 }
