@@ -61,6 +61,7 @@ public class AudioManager : MonoBehaviour
 
     public void SetMusicVolume(float volume)
     {
+        Debug.Log("SetMusicVolume: " + volume);
         if (currentMusicSource != null)
         {
             currentMusicSource.volume = volume;
@@ -71,6 +72,7 @@ public class AudioManager : MonoBehaviour
 
     public void SetSFXVolume(float volume)
     {
+        Debug.Log("SetSFXVolume: " + volume);
         sfxSource.volume = volume;
         PlayerPrefs.SetFloat("SFXVolume", volume);
         PlayerPrefs.Save();
@@ -84,20 +86,20 @@ public class AudioManager : MonoBehaviour
         else
             PlayMusic(mainMenuSource);
     }
-    
-        /*
-        To use PlaySFX anywhere in the game, follow these steps:
 
-        1. Create an AudioClip variable in your script:
-            public AudioClip randomSFX;
+    /*
+    To use PlaySFX anywhere in the game, follow these steps:
 
-        2. Assign an SFX Clip to this variable in the Inspector.
+    1. Create an AudioClip variable in your script:
+        public AudioClip randomSFX;
 
-        3. Call the function when you need to play the sound:
-            AudioManager.instance.PlaySFX(randomSFX);
+    2. Assign an SFX Clip to this variable in the Inspector.
 
-        This will play the sound effect and automatically destroy the temporary AudioSource after it finishes.
-        */
+    3. Call the function when you need to play the sound:
+        AudioManager.instance.PlaySFX(randomSFX);
+
+    This will play the sound effect and automatically destroy the temporary AudioSource after it finishes.
+    */
     public void PlaySFX(AudioClip clip)
     {
         AudioSource tempSFXSource = new GameObject("TempSFXSource").AddComponent<AudioSource>();
