@@ -13703,7 +13703,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.003412905, y: 0.00094190915}
+  m_AnchoredPosition: {x: 0.003412905, y: 0.0009444253}
   m_SizeDelta: {x: 0, y: 379.63}
   m_Pivot: {x: 0, y: 1}
 --- !u!64 &1063000966
@@ -14749,7 +14749,7 @@ MonoBehaviour:
   - {fileID: 2093937586}
   FireObjects: {fileID: 190885530}
   extingItem: {fileID: 9044213486915956790}
-  fireExtinguisherInteractable: {fileID: 0}
+  fireExtinguisherInteractable: {fileID: 1234497243}
 --- !u!64 &1167993619
 MeshCollider:
   m_ObjectHideFlags: 0
