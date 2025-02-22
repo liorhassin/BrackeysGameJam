@@ -11,12 +11,6 @@ public abstract class Hazard : MonoBehaviour
 
     public HighlightManager highlightManager;
 
-    private void Awake()
-    {
-        // Get the instance of the HighlightManager from the scene
-        highlightManager = HighlightManager.Instance;
-    }
-
     public void StartHazard()
     {
         TriggerHazard();
@@ -28,7 +22,7 @@ public abstract class Hazard : MonoBehaviour
         Invoke(nameof(CheckFailure), hazardDuration);
     }
 
-    private void HighlightObjects()
+    public void HighlightObjects()
     {
         // Iterate through the white-highlight array and call the highlight function
         foreach (GameObject item in itemsToHighlightGreen)
@@ -43,7 +37,7 @@ public abstract class Hazard : MonoBehaviour
         }
     }
 
-    private void DisableHighlights()
+    public void DisableHighlights()
     {
         // Disable highlights for each object after hazard duration
         foreach (GameObject item in itemsToHighlightGreen)
