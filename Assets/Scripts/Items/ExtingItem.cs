@@ -9,6 +9,7 @@ public class ExtingItem : HandItem
     public RaycastHit rayHit;
     public float range;
     public LayerMask layerMask;
+    public AudioSource audioSource;
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -31,6 +32,9 @@ public class ExtingItem : HandItem
                 Debug.Log("smokeeee");
                 whiteSmoke.Play();
             }
+            if (!audioSource.isPlaying){
+                audioSource.Play();
+            }
             if (rayHit.collider.CompareTag("Fire"))
             {
                 Debug.Log("found fire");
@@ -51,6 +55,7 @@ public class ExtingItem : HandItem
 
     public override void StopUsing()
     {
+        audioSource.Stop();
         Invoke(nameof(StopParticles), 1f);
     }
 

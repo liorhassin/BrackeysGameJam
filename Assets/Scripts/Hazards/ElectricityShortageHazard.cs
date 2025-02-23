@@ -3,23 +3,23 @@ using UnityEngine;
 public class ElectricityShortageHazard : Hazard
 {
 
-    public Interactable box;
+    public ElectricBoxInteractable electricBoxInteractable;
 
     private void Start()
     {
         hazardName = "Electricity Shortage";
-        isFixed = true;
+        isFixed = false;
         
     }
     public override void TriggerHazard()
     {
         Debug.Log("Electricity Shortage Triggered");
-        box.active = true;
+        electricBoxInteractable.active = true;
     }
     public override void CleanupHazard()
     {
         Debug.Log("Electricity Shortage Cleaned Up");
-        box.active = false;
+        electricBoxInteractable.active = false;
     }
     public override void ApplyFailure()
     {

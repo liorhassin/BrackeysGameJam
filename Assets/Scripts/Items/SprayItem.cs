@@ -7,6 +7,7 @@ public class SprayItem : HandItem
     public RaycastHit rayHit;
     public float range;
     public LayerMask layerMask;
+    public AudioSource audioSource;
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -28,9 +29,12 @@ public class SprayItem : HandItem
             if (!whiteSmoke.isPlaying){
                 whiteSmoke.Play();
             }
+            if (!audioSource.isPlaying){
+                audioSource.Play();
+            }
             if (rayHit.collider.CompareTag("Bug"))
             {
-                Fire f = rayHit.collider.GetComponent<Fire>();
+                Bug f = rayHit.collider.GetComponent<Bug>();
                 if (f != null)
                 {
                     f.AddTime(Time.deltaTime);
@@ -45,10 +49,12 @@ public class SprayItem : HandItem
     public override void StopUsing()
     {
         Invoke(nameof(StopParticles), 1f);
+        audioSource.Stop();
     }
 
     private void StopParticles()
     {
         whiteSmoke.Stop();
+
     }
 }

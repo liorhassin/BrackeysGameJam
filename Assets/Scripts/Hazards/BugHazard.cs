@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class BugHazard : Hazard
@@ -5,6 +6,9 @@ public class BugHazard : Hazard
     public Bug[] bugs;
     public SprayItem sprayItem;
     public SprayInteractable sprayInteractable;
+    public GameObject desk;
+    public TMP_Text tMP_Text;
+    public Transform posTransform;
 
     private int currBugs;
 
@@ -12,9 +16,11 @@ public class BugHazard : Hazard
     {
         hazardName = "Bugs Attack!!";
         hazardDescription = "The house is full of bugs! Find the spray";
+        tMP_Text.enabled = false;
 
         foreach (Bug b in bugs){
             b.gameObject.SetActive(false);
+            highlightManager.HighlightObject(b.gameObject, Color.red, 2f);
         }
 
         sprayInteractable.active = false;
@@ -44,6 +50,8 @@ public class BugHazard : Hazard
             b.gameObject.SetActive(false);
         }
 
+        desk.transform.position = posTransform.transform.position;
+        tMP_Text.enabled = true;
         sprayItem.gameObject.SetActive(false);
     }
 

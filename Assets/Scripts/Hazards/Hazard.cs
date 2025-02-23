@@ -30,8 +30,6 @@ public abstract class Hazard : MonoBehaviour
 
         // Highlight items at the start of the hazard
         HighlightObjects();
-
-        Invoke(nameof(CheckFailure), hazardDuration);
     }
 
     public void HighlightObjects()
