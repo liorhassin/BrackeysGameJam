@@ -3,6 +3,7 @@ using UnityEngine;
 public abstract class Hazard : MonoBehaviour
 {
     public string hazardName;
+    public string hazardDescription;
     public int difficultyLevel;
     public int hazardDuration;
     public bool isFixed = true;

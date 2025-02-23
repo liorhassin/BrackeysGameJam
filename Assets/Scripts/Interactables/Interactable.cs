@@ -6,6 +6,7 @@ public abstract class Interactable : MonoBehaviour
     private Outline outline;
     public AudioSource interactAudio;
     public bool active = true;
+    public bool alwaysOutline = false;
 
     private void Awake()
     {
@@ -46,7 +47,7 @@ public abstract class Interactable : MonoBehaviour
     // Disable the outline when the player stops looking at the object
     public void DisableOutline()
     {
-        if (outline != null)
+        if (outline != null && !alwaysOutline)
         {
             outline.enabled = false;
         }
@@ -59,6 +60,10 @@ public abstract class Interactable : MonoBehaviour
                 interactAudio.Play();
             }
         }
+    }
+
+    public void setColor(Color color){
+        outline.OutlineColor = color;
     }
 
     public abstract void OnInteract();

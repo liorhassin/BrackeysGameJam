@@ -22,6 +22,10 @@ public class LaptopInteractable : Interactable
             playerMovement = FindFirstObjectByType<PlayerController>();
         if (playerCameraScript == null)
             playerCameraScript = FindFirstObjectByType<PlayerCamera>();
+        alwaysOutline = true;
+        setColor(Color.yellow);
+        EnableOutline();
+
     }
 
     public override void OnInteract()
@@ -34,20 +38,22 @@ public class LaptopInteractable : Interactable
 
     private void EnterLaptopMode()
     {
+        TutorialManager.instance.ShowTutorial("laptop", "Press any key to start typing. \nPress Left Mouse Button to exit the laptop anytime.");
         isUsingLaptop = true;
         originalCameraPosition = playerCamera.transform.position;
         originalCameraRotation = playerCamera.transform.rotation;
         playerMovement.AllowMovement(false);
         playerCameraScript.enable_camera(false);
         playerUIDot.SetActive(false);
-        
+
         StartCoroutine(EnableTypingWithDelay(0.2f));
     }
 
     private IEnumerator EnableTypingWithDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        if (typingManager != null){
+        if (typingManager != null)
+        {
             typingManager.EnableTyping();
         }
     }
@@ -72,7 +78,8 @@ public class LaptopInteractable : Interactable
         StartCoroutine(SmoothReturnToPlayer());
         playerCameraScript.enable_camera(true);
         playerUIDot.SetActive(true);
-        if (typingManager != null){
+        if (typingManager != null)
+        {
             typingManager.DisableTyping();
         }
     }

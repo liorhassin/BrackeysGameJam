@@ -13,7 +13,7 @@ public class FireHazard : Hazard
     private void Start()
     {
         hazardName = "House on Fire";
-
+        hazardDescription = "The house is on fire! Put it out before it spreads!";
         Debug.Log("num of fires = " + fires.Count);
 
         foreach (Fire fire in fires){

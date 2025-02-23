@@ -113,4 +113,9 @@ public class AudioManager : MonoBehaviour
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
+
+        public AudioSource GetCurrentMusicSource()
+    {
+        return currentMusicSource; // Returns the currently playing music
+    }
 }

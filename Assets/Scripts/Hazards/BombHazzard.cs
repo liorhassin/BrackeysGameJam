@@ -16,6 +16,8 @@ public class BombHazzard : Hazard
 
     void Start()
     {
+        hazardName = "Defuse The Bomb";
+        hazardDescription = "Find the bomb and defuse it before time runs out!";
         bomb.SetActive(false);
         isFixed = false;
         timer.time = hazardDuration;

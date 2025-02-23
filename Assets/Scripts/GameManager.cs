@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         Time.timeScale = 1f;
+        TutorialManager.instance.ShowTutorial("starting", "Go to your laptop and press E to interact with it. You can pause the game anytime using '~'");
     }
 
     // Update is called once per frame

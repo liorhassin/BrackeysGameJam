@@ -11,8 +11,15 @@ public class HazardManager : MonoBehaviour
     public float minTimeBetweenHazards;
     public float maxTimeBetweenHazards;
     public GameObject hazardNotificationPanel;
-    public TMP_Text hazardNotificationText;
+    public TMP_Text hazardNotificationTextTitle;
+    public TMP_Text hazardNotificationTextDescription;
     public GameObject Pistol;
+
+    public List<Hazard> fixedHazards = new List<Hazard>();
+    public List<int> fixedStartingPoints = new List<int>();
+    private float nextHazardStartingProgress;
+    private int hazardCounter;
+    private Hazard nextHazard;
 
     private float nextHazardTime;
     public float progress;
@@ -22,7 +29,7 @@ public class HazardManager : MonoBehaviour
 
     void Start()
     {
-        minTimeBetweenHazards = 20f;
+        /*minTimeBetweenHazards = 20f;
         maxTimeBetweenHazards = 60f;
         nextHazardTime = 20f;
 
@@ -32,6 +39,15 @@ public class HazardManager : MonoBehaviour
         if (hazards.Count == 0)
         {
             Debug.LogWarning("No hazards found in the scene!");
+        }*/
+        if(fixedHazards.Count == 0)
+        {
+            Debug.LogWarning("No fixed hazards found in the scene!");
+        }
+        else{
+            nextHazard = fixedHazards[0];
+            nextHazardStartingProgress = fixedStartingPoints[0];
+            hazardCounter = 0;
         }
 
         hazardNotificationPanel.SetActive(false);
@@ -41,13 +57,30 @@ public class HazardManager : MonoBehaviour
 
     void Update()
     {
-        if (Time.time >= nextHazardTime)
+        /*if (Time.time >= nextHazardTime)
         {
             TriggerRandomHazard();
             ScheduleNextHazard();
+        }*/
+        if(progress >= nextHazardStartingProgress){
+            TriggerNextHazard();
+            hazardCounter++;
+            if(hazardCounter < fixedHazards.Count){
+                nextHazard = fixedHazards[hazardCounter];
+                nextHazardStartingProgress = fixedStartingPoints[hazardCounter];
+            }
         }
+        
     }
 
+    private void TriggerNextHazard()
+    {
+
+            nextHazard.StartHazard();
+            Debug.Log("Hazard Triggered: " + nextHazard.hazardName);
+            ShowHazardNotification(nextHazard);
+    }
+/*
     private void ScheduleNextHazard()
     {
         float timeUntilNextHazard = Random.Range(minTimeBetweenHazards, maxTimeBetweenHazards);
@@ -65,7 +98,7 @@ public class HazardManager : MonoBehaviour
             selectedHazard.StartHazard();
             Debug.Log("Hazard Triggered: " + selectedHazard.hazardName);
             lastTriggeredHazard = selectedHazard;
-            ShowHazardNotification(selectedHazard.hazardName);
+            ShowHazardNotification(selectedHazard);
         }
         else
         {
@@ -73,10 +106,11 @@ public class HazardManager : MonoBehaviour
             lastTriggeredHazard = null;
         }
     }
-
-    private void ShowHazardNotification(string hazardName)
+*/
+    private void ShowHazardNotification(Hazard hazard)
     {
-        hazardNotificationText.text = "Hazard: " + hazardName;
+        hazardNotificationTextTitle.text = "Hazard: " + hazard.hazardName;
+        hazardNotificationTextDescription.text = hazard.hazardDescription;
         hazardNotificationPanel.SetActive(true);
         StartCoroutine(HideHazardNotification());
     }

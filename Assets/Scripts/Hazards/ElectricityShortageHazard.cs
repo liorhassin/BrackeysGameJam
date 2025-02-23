@@ -5,6 +5,7 @@ public class ElectricityShortageHazard : Hazard
     private void Start()
     {
         hazardName = "Electricity Shortage";
+        hazardDescription = "The electricity has been cut off. Fix it before it's too late!";
         difficultyLevel = 0;
         hazardDuration = 15;
         isFixed = true;

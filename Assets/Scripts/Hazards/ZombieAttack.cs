@@ -16,6 +16,7 @@ public class ZombieAttack : Hazard
     private void Start()
     {
         hazardName = "Zombie Attack!";
+        hazardDescription = "Kill all the zombies before they are reaching you!";
         hazardDuration = 3000;
         isFixed = true;
 

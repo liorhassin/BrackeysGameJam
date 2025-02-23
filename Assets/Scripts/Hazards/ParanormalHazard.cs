@@ -10,6 +10,8 @@ public class ParanormalHazard : Hazard
 
     private void Start()
     {
+        hazardName = "Paranormal Activity";
+        hazardDescription = "Hold the cross tight before the demon reaches you!";
         isFixed = true;
         crossInteractable.active = false;
 

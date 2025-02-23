@@ -8,14 +8,14 @@ public class EndGameUIManager : MonoBehaviour {
     public TextMeshProUGUI titleText;
     public TextMeshProUGUI progressPercentage;
 
-    public Button restartButton;
     public Button mainMenuButton;
+    public GameObject endGameScreen;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        restartButton.onClick.AddListener(RestartGame);
         mainMenuButton.onClick.AddListener(GoToMainMenu);
+        endGameScreen.SetActive(false);
     }
 
     public void ShowEndGameScreen(bool hasWon, float percentage) {
@@ -23,17 +23,12 @@ public class EndGameUIManager : MonoBehaviour {
         progressPercentage.text = percentage + "%";
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-        gameObject.SetActive(true);
+        endGameScreen.SetActive(true);
         Time.timeScale = 0f;
     }
 
     private void HideEndGameScreen() {
         gameObject.SetActive(false);
-    }
-
-    private void RestartGame() {
-        HideEndGameScreen();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void GoToMainMenu() {

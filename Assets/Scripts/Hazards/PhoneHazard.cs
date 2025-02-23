@@ -8,6 +8,7 @@ public class PhoneHazard : Hazard
     private void Start()
     {
         hazardName = "Phone Ringing";
+        hazardDescription = "Answer the phone before the caller hangs up.";
         difficultyLevel = 0; 
         isFixed = true;
         phone.active = false;
@@ -15,6 +16,8 @@ public class PhoneHazard : Hazard
 
     public override void TriggerHazard()
     {
+        TutorialManager.instance.ShowTutorial("phone_start", "A hazard has appeared! Use the glowing outline to find it, even through walls.");
+
         isFixed = false;
         Debug.Log("☎️ The phone is ringing! Answer it before it's too late.");
 
@@ -29,6 +32,7 @@ public class PhoneHazard : Hazard
 
     public override void CleanupHazard()
     {
+        TutorialManager.instance.ShowTutorial("phone_fixed", "You fixed the first hazard! Go back to your laptop to continue working on your assignment.");
         isFixed = true;
         phoneRingSound.Stop();
         phone.active = false;

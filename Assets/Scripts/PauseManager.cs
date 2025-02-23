@@ -10,12 +10,17 @@ public class PauseManager : MonoBehaviour
     public Button mainMenuButton;
 
     private bool isPaused = false;
+    private AudioSource currentMusic;
 
     void Start()
     {
         pauseMenuUI.SetActive(false); // Hide pause menu at start
         resumeButton.onClick.AddListener(ResumeGame);
         mainMenuButton.onClick.AddListener(GoToMainMenu);
+        if (AudioManager.instance != null)
+        {
+            currentMusic = AudioManager.instance.GetCurrentMusicSource();
+        }
     }
 
     void Update()
@@ -37,6 +42,10 @@ public class PauseManager : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 0f;
+        if (currentMusic != null && currentMusic.isPlaying)
+        {
+            currentMusic.Pause(); 
+        }
     }
 
     public void ResumeGame()
@@ -47,6 +56,10 @@ public class PauseManager : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         Time.timeScale = 1f;
+        if (currentMusic != null)
+        {
+            currentMusic.UnPause(); 
+        }
     }
 
     private void GoToMainMenu()
