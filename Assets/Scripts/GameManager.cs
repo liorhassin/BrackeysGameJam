@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Cursor = UnityEngine.Cursor;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
     [SerializeField] private GameObject playerGameObject;
     [SerializeField] private GameObject hazardManagerGameObject;
     [SerializeField] private GameObject typingManagerGameObject;
@@ -20,26 +21,39 @@ public class GameManager : MonoBehaviour {
         typingManager = typingManagerGameObject.GetComponent<LaptopManager>();
         playerHealth = playerGameObject.GetComponent<HealthSystem>();
         endGameUIManager = endGameUIGameObject.GetComponent<EndGameUIManager>();
-        
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         Time.timeScale = 1f;
-        TutorialManager.instance.ShowTutorial("starting", "Go to your laptop and press E to interact with it. You can pause the game anytime using '~'");
+        TutorialManager.instance.ShowTutorial("starting", "Go to your laptop and press E to interact with it. \nYou can pause the game anytime using '~'");
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
         float progress = typingManager.GetProgress();
         hazardManager.SetProgress(progress);
-        
-        if (playerHealth.isDead) {
+
+        if (playerHealth.isDead)
+        {
             uiCanvas.SetActive(false);
             endGameUIManager.ShowEndGameScreen(false, progress);
         }
 
-        if (Mathf.Approximately(progress, 100f)) {
-            uiCanvas.SetActive(false);
-            endGameUIManager.ShowEndGameScreen(true, progress);
+        if (Mathf.Approximately(progress, 100f))
+        {
+            SpaceshipController spaceshipController = FindObjectOfType<SpaceshipController>();
+
+            if (spaceshipController != null)
+            {
+                spaceshipController.StartMoving();
+            }
+            else
+            {
+                Debug.LogError("No SpaceshipController found in the scene!");
+            }
+            /*uiCanvas.SetActive(false);
+            endGameUIManager.ShowEndGameScreen(true, progress);*/
         }
     }
 }
