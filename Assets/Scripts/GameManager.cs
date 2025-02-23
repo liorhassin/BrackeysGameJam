@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         Time.timeScale = 1f;
-        TutorialManager.instance.ShowTutorial("starting", "Go to your laptop and press E to interact with it. \nYou can pause the game anytime using '~'");
+        Invoke("ShowStartingTutorial", 0.5f);
     }
 
     // Update is called once per frame
@@ -54,6 +54,18 @@ public class GameManager : MonoBehaviour
             }
             /*uiCanvas.SetActive(false);
             endGameUIManager.ShowEndGameScreen(true, progress);*/
+        }
+    }
+
+    void ShowStartingTutorial()
+    {
+        if (TutorialManager.instance != null)
+        {
+            TutorialManager.instance.ShowTutorial("starting", "Go to your laptop and press E to interact with it. \nYou can pause the game anytime using '~'");
+        }
+        else
+        {
+            Debug.LogError("❌ TutorialManager instance is null!");
         }
     }
 }
