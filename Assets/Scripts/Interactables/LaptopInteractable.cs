@@ -72,7 +72,7 @@ public class LaptopInteractable : Interactable
         }
     }
 
-    private void ExitLaptopMode()
+    public void ExitLaptopMode()
     {
         isUsingLaptop = false;
         StartCoroutine(SmoothReturnToPlayer());

@@ -1,21 +1,26 @@
 using UnityEngine;
 using TMPro;
+using System.Text;
+using UnityEngine.UI;
 
 public class LaptopManager : TypingManager
 {
     public TMP_Text displayText;
     public TMP_Text progressText;
     public GameObject Pistol;
+    public RawImage errorImage;
+    public LaptopInteractable laptopInteractable;
     
     private string loadedText = "";
     private int currentIndex = 0;
     private int goalIndex = 0;
-    private int charPerFrame = 50;
-    private int typingSpeedMultiplier = 100;
-    private int typingMaxCap = 200;
+    private int charPerFrame = 100;
+    private int typingSpeedMultiplier = 800;
+    private int typingMaxCap = 10000;
     private bool is_active = false;
     private bool pistol_was_active = false;
     private float progress = 0;
+
 
     void Start()
     {
@@ -25,14 +30,41 @@ public class LaptopManager : TypingManager
 
     void Update()
     {   
+        if (!laptopInteractable.active)
+        {
+            errorImage.enabled = true;
+            if (is_active){
+                Debug.Log("is active was on");
+                laptopInteractable.ExitLaptopMode();
+            }
+            else{
+                Debug.Log("is active was off");
+            }
+            return;
+        }
+
+        errorImage.enabled = false;
+        
         if (!is_active){
             return;
         }
 
-        for (int i = 0 ; i < charPerFrame && currentIndex < goalIndex; i++) {
-            displayText.text += loadedText[currentIndex];
-            currentIndex++;
+        // Calculate the next chunk of text to display
+        int lengthToAdd = Mathf.Min(charPerFrame, goalIndex - currentIndex);
+        if (lengthToAdd > 0)
+        {
+            // Add the substring from the loaded text
+            displayText.text += loadedText.Substring(currentIndex, lengthToAdd);
+            currentIndex += lengthToAdd;
         }
+
+        // Limit the display text length by removing characters from the start
+        int maxDisplayLength = 500; // Adjust this as needed
+        if (displayText.text.Length > maxDisplayLength * 2)
+        {
+            displayText.text = displayText.text.Substring(displayText.text.Length - maxDisplayLength);
+        }
+
         progress = (float)currentIndex / loadedText.Length * 100;
         progressText.text = progress.ToString("F4") + "%";
 
@@ -52,6 +84,7 @@ public class LaptopManager : TypingManager
             }
         }
     }
+
 
     void LoadTextFile()
     {

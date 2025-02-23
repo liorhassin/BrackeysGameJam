@@ -10,10 +10,21 @@ public abstract class Hazard : MonoBehaviour
     public GameObject[] itemsToHighlightGreen;
     public GameObject[] itemsToHighlightRed;
 
+
+
     public HighlightManager highlightManager;
+    private LaptopInteractable laptopInteractable;
 
     public void StartHazard()
     {
+        if (highlightManager == null){
+            highlightManager = FindFirstObjectByType<HighlightManager>();
+        }
+        if (laptopInteractable == null){
+            laptopInteractable = FindFirstObjectByType<LaptopInteractable>();
+        }
+        laptopInteractable.active = false;
+
         TriggerHazard();
         isFixed = false;
 
@@ -73,10 +84,9 @@ public abstract class Hazard : MonoBehaviour
     public void ResolveHazard()
     {
         isFixed = true;
+        laptopInteractable.active = true;
         CleanupHazard();
         Debug.Log("Hazard Resolved");
-
-        // Disable highlights when hazard is resolved
         DisableHighlights();
     }
 }
