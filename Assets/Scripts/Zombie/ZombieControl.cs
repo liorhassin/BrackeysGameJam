@@ -51,7 +51,7 @@ public class ZombieControl : MonoBehaviour
             navMeshAgent.angularSpeed = 240f; // Make the zombie rotate smoothly towards the player
         }
 
-        healthBarGameObject = GameObject.Find("UICanvas/HealthBar");
+        healthBarGameObject = GameObject.Find("UICanvas/HUD/HealthBar");
         playerHealthSlider = healthBarGameObject.GetComponent<Slider>();
 
         StartCoroutine(PlayRandomSound());
@@ -75,7 +75,7 @@ public class ZombieControl : MonoBehaviour
                 Vector3 closestPoint;
                 if (FindClosestPointOnNavMesh(player.position, out closestPoint))
                 {
-                    Debug.Log("Closest NavMesh Point: " + closestPoint);
+                    
                 }
                 navMeshAgent.destination = closestPoint;
                 navMeshAgent.speed = walkSpeed;
@@ -101,8 +101,7 @@ public class ZombieControl : MonoBehaviour
 
         if (distance <= interactionRange && currentState != ZombieState.Dead)
         {
-            currentState = ZombieState.Attack; // Switch to attack state if in range
-            Debug.Log("Player detected! Preparing to attack.");
+            currentState = ZombieState.Attack; 
         }
         else if (distance > interactionRange && currentState != ZombieState.Dead)
         {

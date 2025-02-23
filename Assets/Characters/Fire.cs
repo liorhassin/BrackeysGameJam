@@ -4,7 +4,7 @@ using UnityEngine;
 public class Fire : MonoBehaviour
 {
     public float timeToExtinguish = 3f;
-    private float timeGot = 0f;
+    public float timeGot = 0f;
     public FireHazard fireHazard;
     public List<ParticleSystem> particleSystems;
     

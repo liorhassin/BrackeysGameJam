@@ -23,8 +23,8 @@ public class HazardManager : MonoBehaviour
 
     private float nextHazardTime;
     public float progress;
-    private Hazard lastTriggeredHazard = null;
 
+    public bool refreshed = true;
     public Dictionary<string, GameObject> hazardObjects;
 
     void Start()
@@ -63,9 +63,13 @@ public class HazardManager : MonoBehaviour
             ScheduleNextHazard();
         }*/
         if(progress >= nextHazardStartingProgress){
-            TriggerNextHazard();
+            if (refreshed){
+                TriggerNextHazard();
+                refreshed = false;
+            }
             hazardCounter++;
             if(hazardCounter < fixedHazards.Count){
+                refreshed = true;
                 nextHazard = fixedHazards[hazardCounter];
                 nextHazardStartingProgress = fixedStartingPoints[hazardCounter];
             }
@@ -117,7 +121,7 @@ public class HazardManager : MonoBehaviour
 
     private IEnumerator HideHazardNotification()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(8f);
         hazardNotificationPanel.SetActive(false);
     }
 

@@ -8,6 +8,8 @@ public class ParanormalHazard : Hazard
     public CrossInteractable crossInteractable;
     public Transform startPos;
 
+    public bool isResolved = false;
+
     private void Start()
     {
         hazardName = "Paranormal Activity";
@@ -35,17 +37,14 @@ public class ParanormalHazard : Hazard
             ghostEffect.Reset();
             ghostEffect.gameObject.SetActive(true); 
             ghostEffect.fire.Stop();
-        }
-
-        if (ghostSound != null && AudioManager.instance != null)
-        {
-            AudioManager.instance.PlaySFX(ghostSound);
+            ghostEffect.audioSource.Play();
         }
     }
 
     public void Update()
     {
-        if (ghostEffect.currentState == DemonControl.State.Dead){
+        if (ghostEffect.currentState == DemonControl.State.Dead && !isResolved){
+            isResolved = true;
             ResolveHazard();
         }
     }

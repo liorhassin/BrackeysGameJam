@@ -1,0 +1,190 @@
+
+Computer Science 302: Data Structures and Algorithms
+Homework Assignment #4 - Student Answers
+Submitted by: Joe Mama
+Date: Februray 23, 2025
+
+---
+
+Problem 1: Implementing a Stack Using a Linked List
+Implementation:
+
+A stack follows the Last-In-First-Out (LIFO) principle. In this implementation, I used a linked list to store stack elements. The linked list allows efficient push and pop operations in O(1) time.
+
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+
+class Stack:
+    def __init__(self):
+        self.top = None
+        self.count = 0
+    
+    def push(self, value):
+        new_node = Node(value)
+        new_node.next = self.top
+        self.top = new_node
+        self.count += 1
+    
+    def pop(self):
+        if self.top is None:
+            return None
+        popped_value = self.top.value
+        self.top = self.top.next
+        self.count -= 1
+        return popped_value
+    
+    def peek(self):
+        return self.top.value if self.top else None
+    
+    def is_empty(self):
+        return self.top is None
+    
+    def size(self):
+        return self.count
+
+Test Script:
+stack = Stack()
+stack.push(10)
+stack.push(20)
+stack.push(30)
+print(stack.pop())  # Output: 30
+print(stack.peek()) # Output: 20
+print(stack.size()) # Output: 2
+
+Explanation:
+A linked list implementation of a stack is beneficial because it dynamically allocates memory, preventing wasted space. Unlike an array-based implementation, it does not require resizing operations, which can be costly. However, a linked list stack requires extra memory for pointers.
+
+---
+
+Problem 2: Binary Search Tree (BST) Operations
+Implementation:
+
+class TreeNode:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+class BST:
+    def __init__(self):
+        self.root = None
+    
+    def insert(self, value):
+        if not self.root:
+            self.root = TreeNode(value)
+            return
+        
+        def _insert(node, value):
+            if value < node.value:
+                if node.left:
+                    _insert(node.left, value)
+                else:
+                    node.left = TreeNode(value)
+            else:
+                if node.right:
+                    _insert(node.right, value)
+                else:
+                    node.right = TreeNode(value)
+        
+        _insert(self.root, value)
+
+Explanation of Deletion:
+Deleting a node in a BST involves three cases:
+1. Leaf Node: Simply remove it.
+2. Node with One Child: Replace it with its only child.
+3. Node with Two Children: Replace it with the in-order successor (smallest node in the right subtree).
+
+This ensures that the BST properties remain valid after deletion.
+
+---
+
+Problem 3: Dynamic Programming - Coin Change Problem
+Implementation:
+
+from typing import List
+
+def min_coins(coins: List[int], amount: int) -> int:
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0
+    
+    for coin in coins:
+        for i in range(coin, amount + 1):
+            dp[i] = min(dp[i], dp[i - coin] + 1)
+    
+    return dp[amount] if dp[amount] != float('inf') else -1
+
+Explanation:
+This problem is solved using dynamic programming. The dp array stores the minimum number of coins required to make up each amount. By iterating through all coins and sub-amounts, we ensure optimal solutions are stored, significantly reducing redundant calculations.
+
+---
+
+Problem 4: Graph Traversals - BFS and DFS
+Implementation:
+
+from collections import deque
+
+class Graph:
+    def __init__(self):
+        self.adj_list = {}
+    
+    def add_edge(self, u, v):
+        if u not in self.adj_list:
+            self.adj_list[u] = []
+        if v not in self.adj_list:
+            self.adj_list[v] = []
+        self.adj_list[u].append(v)
+        self.adj_list[v].append(u)
+    
+    def bfs(self, start):
+        visited = set()
+        queue = deque([start])
+        while queue:
+            node = queue.popleft()
+            if node not in visited:
+                visited.add(node)
+                print(node, end=' ')
+                queue.extend(self.adj_list[node])
+
+    def dfs(self, start, visited=set()):
+        if start not in visited:
+            visited.add(start)
+            print(start, end=' ')
+            for neighbor in self.adj_list[start]:
+                self.dfs(neighbor, visited)
+
+Comparison of BFS and DFS:
+- BFS explores neighbors first, making it better for shortest path problems.
+- DFS explores depth-first, useful for maze solving and cycle detection.
+- Both have O(V + E) time complexity.
+
+---
+
+Extra Credit: Dijkstra’s Algorithm
+Implementation:
+
+import heapq
+
+def dijkstra(graph, start):
+    pq = [(0, start)]
+    distances = {node: float('inf') for node in graph}
+    distances[start] = 0
+    
+    while pq:
+        curr_dist, node = heapq.heappop(pq)
+        for neighbor, weight in graph[node]:
+            distance = curr_dist + weight
+            if distance < distances[neighbor]:
+                distances[neighbor] = distance
+                heapq.heappush(pq, (distance, neighbor))
+    
+    return distances
+
+Why Dijkstra's Algorithm Doesn't Work for Negative Weights:
+Dijkstra assumes that once a node's shortest path is found, it will not change. With negative weights, a shorter path might be found later, leading to incorrect results. Bellman-Ford is preferred in such cases.
+
+---
+
+Conclusion:
+This assignment covered fundamental data structures and algorithms, including stacks, binary search trees, dynamic programming, graph traversal, and shortest path algorithms. The implementations demonstrate key concepts in algorithm efficiency and data organization. Through this assignment, I have solidified my understanding of different traversal techniques and algorithmic optimizations, which will be valuable in solving complex computational problems in the future.

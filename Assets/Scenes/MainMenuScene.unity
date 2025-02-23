@@ -3129,6 +3129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1079458420}
   - component: {fileID: 1079458419}
+  - component: {fileID: 1079458421}
   m_Layer: 0
   m_Name: GUI Camera
   m_TagString: Untagged
@@ -3202,6 +3203,14 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &1079458421
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079458415}
+  m_Enabled: 1
 --- !u!1 &1096979604
 GameObject:
   m_ObjectHideFlags: 0
@@ -4860,6 +4869,7 @@ MonoBehaviour:
   mainMenuSource: {fileID: 1718631286}
   gameSource: {fileID: 1718631285}
   sfxSource: {fileID: 1718631284}
+  hazardResolved: {fileID: 8300000, guid: 75caed441eceb454e8b582e9857a19cf, type: 3}
 --- !u!4 &1718631288
 Transform:
   m_ObjectHideFlags: 0

@@ -36,6 +36,11 @@ public class SpaceshipMover : MonoBehaviour
 
     void Update()
     {
+        if (spotlight != null)
+        {
+            spotlight.enabled = true;
+        }
+
         if (isMoving && !hasArrived)
         {
             elapsedTime += Time.deltaTime;

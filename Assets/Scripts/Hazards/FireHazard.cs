@@ -14,7 +14,6 @@ public class FireHazard : Hazard
     {
         hazardName = "House on Fire";
         hazardDescription = "The house is on fire! Put it out before it spreads!";
-        Debug.Log("num of fires = " + fires.Count);
 
         foreach (Fire fire in fires){
             fire.Deactivate();
@@ -34,6 +33,7 @@ public class FireHazard : Hazard
         foreach (Fire fire in fires)
         {
             fire.gameObject.SetActive(true);
+            fire.timeGot = 0f;
             fire.Activate();
         }
 

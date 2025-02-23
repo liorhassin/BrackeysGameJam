@@ -17,8 +17,6 @@ public class ZombieAttack : Hazard
     {
         hazardName = "Zombie Attack!";
         hazardDescription = "Kill all the zombies before they are reaching you!";
-        hazardDuration = 3000;
-        isFixed = true;
 
         // Populate the spawnPoints array with all child transforms under spawnPointsParent
         if (spawnPointsParent != null)
@@ -33,7 +31,7 @@ public class ZombieAttack : Hazard
     public override void TriggerHazard()
     {
         isFixed = false;
-        Debug.Log("Zombies Are Attacking!!! Kill Them All");
+        Debug.Log("BIGGGGG ZOMBVIEESESE Are Attacking!!! Kill Them All");
         pistol.SetActive(true);
 
         // Start spawning zombies with a delay

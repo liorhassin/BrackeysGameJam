@@ -10,17 +10,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject typingManagerGameObject;
     [SerializeField] private GameObject endGameUIGameObject;
     [SerializeField] private GameObject uiCanvas;
+    public CountdownClock countdownClock;
+
+    public SpaceshipHazard spaceshipHazard;
 
     private HazardManager hazardManager;
     private LaptopManager typingManager;
     private HealthSystem playerHealth;
-    private EndGameUIManager endGameUIManager;
+    public EndGameUIManager endGameUIManager;
     void Start()
     {
         hazardManager = hazardManagerGameObject.GetComponent<HazardManager>();
         typingManager = typingManagerGameObject.GetComponent<LaptopManager>();
         playerHealth = playerGameObject.GetComponent<HealthSystem>();
-        endGameUIManager = endGameUIGameObject.GetComponent<EndGameUIManager>();
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -40,21 +42,18 @@ public class GameManager : MonoBehaviour
             endGameUIManager.ShowEndGameScreen(false, progress);
         }
 
-        if (Mathf.Approximately(progress, 100f))
+        if (progress >= 99f)
         {
-            SpaceshipController spaceshipController = FindObjectOfType<SpaceshipController>();
-
-            if (spaceshipController != null)
-            {
-                spaceshipController.StartMoving();
-            }
-            else
-            {
-                Debug.LogError("No SpaceshipController found in the scene!");
-            }
-            /*uiCanvas.SetActive(false);
-            endGameUIManager.ShowEndGameScreen(true, progress);*/
+            spaceshipHazard.StartHazard();
+            countdownClock.Stop();
+            Invoke(nameof(ShowGameOver), 6f);
+            
         }
+    }
+
+    void ShowGameOver(){
+        uiCanvas.SetActive(false);
+        endGameUIManager.ShowEndGameScreen(true, 0);
     }
 
     void ShowStartingTutorial()

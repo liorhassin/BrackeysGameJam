@@ -8,6 +8,8 @@ public class ElectricityShortageHazard : Hazard
     private void Start()
     {
         hazardName = "Electricity Shortage";
+        hazardDescription = "Find the electric switch! Your PC needs power!";
+
         isFixed = false;
         
     }

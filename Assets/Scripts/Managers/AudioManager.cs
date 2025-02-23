@@ -10,6 +10,8 @@ public class AudioManager : MonoBehaviour
     public AudioSource gameSource;
     public AudioSource sfxSource;
 
+    public static AudioClip hazardResolved;
+
     private AudioSource currentMusicSource;
 
     void Awake()

@@ -4,10 +4,13 @@ using TMPro;
 public class CountdownClock : MonoBehaviour
 {
     public TextMeshProUGUI clockText;
-    private float totalTime = 12f * 60;
+    private float totalTime = 7.6f * 60;
+    public bool active = true;
+    [SerializeField] private GameObject uiCanvas;
 
     void Start()
     {
+        active = true;
         if (clockText == null)
         {
             Debug.LogError("⚠️ ClockText is not assigned!");
@@ -17,9 +20,16 @@ public class CountdownClock : MonoBehaviour
         InvokeRepeating("UpdateClock", 1f, 1f);
     }
 
+    public void Stop(){
+        active = false;
+        if (totalTime == 0){
+            totalTime = 1;
+        }
+    }
+
     void UpdateClock()
     {
-        if (totalTime > 0)
+        if (totalTime > 0 && active)
         {
             totalTime--;
             UpdateClockDisplay();
@@ -29,18 +39,18 @@ public class CountdownClock : MonoBehaviour
             CancelInvoke("UpdateClock");
             Debug.Log("Time is up!");
 
-            LaptopManager laptopManager = FindObjectOfType<LaptopManager>();
+            LaptopManager laptopManager = FindFirstObjectByType<LaptopManager>();
             float progress = laptopManager != null ? laptopManager.GetProgress() : 0f;
-            EndGameUIManager endGameUI = FindObjectOfType<EndGameUIManager>();
+            EndGameUIManager endGameUI = FindFirstObjectByType<EndGameUIManager>();
 
             if (endGameUI != null)
             {
+                Debug.Log("herer 1");
+                laptopManager.DisableTyping();
                 endGameUI.ShowEndGameScreen(false, progress);
             }
-            else
-            {
-                Debug.LogError("EndGameUIManager not found in the scene!");
-            }
+
+            Debug.Log("not hgerer");
         }
     }
 

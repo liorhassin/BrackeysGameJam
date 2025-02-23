@@ -6,6 +6,8 @@ public class HealthSystem : MonoBehaviour
 
     public int maxHp = 3;
     public bool isDead = false;
+    public AudioClip audioClip;
+    public AudioSource audioSource;
     
     private int currHp;
 
@@ -22,7 +24,7 @@ public class HealthSystem : MonoBehaviour
 
     public void Damage(int dmg){
         currHp -= dmg;
-        Debug.Log("hit. curr hp: " + currHp);
+
         if (currHp <= 0) {
             Debug.Log("dead!");
             isDead = true;

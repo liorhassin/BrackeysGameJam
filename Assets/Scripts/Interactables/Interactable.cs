@@ -55,10 +55,10 @@ public abstract class Interactable : MonoBehaviour
 
     public void Interact(){
         if (active){
-            OnInteract();
             if (interactAudio != null){
                 interactAudio.Play();
             }
+            OnInteract();
         }
     }
 

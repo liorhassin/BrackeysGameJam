@@ -1,0 +1,638 @@
+
+Computer Science 302: Data Structures and Algorithms
+Homework Assignment #4 - Student Answers
+Submitted by: Joe Mama
+Date: February 23, 2025
+
+---
+
+Problem 1: Implementing a Stack Using a Linked List
+Implementation:
+
+A stack follows the Last-In-First-Out (LIFO) principle. In this implementation, I used a linked list to store stack elements. The linked list allows efficient push and pop operations in O(1) time.
+
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+
+class Stack:
+    def __init__(self):
+        self.top = None
+        self.count = 0
+    
+    def push(self, value):
+        new_node = Node(value)
+        new_node.next = self.top
+        self.top = new_node
+        self.count += 1
+    
+    def pop(self):
+        if self.top is None:
+            return None
+        popped_value = self.top.value
+        self.top = self.top.next
+        self.count -= 1
+        return popped_value
+    
+    def peek(self):
+        return self.top.value if self.top else None
+    
+    def is_empty(self):
+        return self.top is None
+    
+    def size(self):
+        return self.count
+
+Test Script:
+stack = Stack()
+stack.push(10)
+stack.push(20)
+stack.push(30)
+print(stack.pop())  # Output: 30
+print(stack.peek()) # Output: 20
+print(stack.size()) # Output: 2
+
+Explanation:
+A linked list implementation of a stack is beneficial because it dynamically allocates memory, preventing wasted space. Unlike an array-based implementation, it does not require resizing operations, which can be costly. However, a linked list stack requires extra memory for pointers.
+
+---
+
+Problem 2: Binary Search Tree (BST) Operations
+Implementation:
+
+class TreeNode:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+class BST:
+    def __init__(self):
+        self.root = None
+    
+    def insert(self, value):
+        if not self.root:
+            self.root = TreeNode(value)
+            return
+        
+        def _insert(node, value):
+            if value < node.value:
+                if node.left:
+                    _insert(node.left, value)
+                else:
+                    node.left = TreeNode(value)
+            else:
+                if node.right:
+                    _insert(node.right, value)
+                else:
+                    node.right = TreeNode(value)
+        
+        _insert(self.root, value)
+
+Explanation of Deletion:
+Deleting a node in a BST involves three cases:
+1. Leaf Node: Simply remove it.
+2. Node with One Child: Replace it with its only child.
+3. Node with Two Children: Replace it with the in-order successor (smallest node in the right subtree).
+
+This ensures that the BST properties remain valid after deletion.
+
+---
+
+Problem 3: Dynamic Programming - Coin Change Problem
+Implementation:
+
+from typing import List
+
+def min_coins(coins: List[int], amount: int) -> int:
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0
+    
+    for coin in coins:
+        for i in range(coin, amount + 1):
+            dp[i] = min(dp[i], dp[i - coin] + 1)
+    
+    return dp[amount] if dp[amount] != float('inf') else -1
+
+Explanation:
+This problem is solved using dynamic programming. The dp array stores the minimum number of coins required to make up each amount. By iterating through all coins and sub-amounts, we ensure optimal solutions are stored, significantly reducing redundant calculations.
+
+---
+
+Problem 4: Graph Traversals - BFS and DFS
+Implementation:
+
+from collections import deque
+
+class Graph:
+    def __init__(self):
+        self.adj_list = {}
+    
+    def add_edge(self, u, v):
+        if u not in self.adj_list:
+            self.adj_list[u] = []
+        if v not in self.adj_list:
+            self.adj_list[v] = []
+        self.adj_list[u].append(v)
+        self.adj_list[v].append(u)
+    
+    def bfs(self, start):
+        visited = set()
+        queue = deque([start])
+        while queue:
+            node = queue.popleft()
+            if node not in visited:
+                visited.add(node)
+                print(node, end=' ')
+                queue.extend(self.adj_list[node])
+
+    def dfs(self, start, visited=set()):
+        if start not in visited:
+            visited.add(start)
+            print(start, end=' ')
+            for neighbor in self.adj_list[start]:
+                self.dfs(neighbor, visited)
+
+Comparison of BFS and DFS:
+- BFS explores neighbors first, making it better for shortest path problems.
+- DFS explores depth-first, useful for maze solving and cycle detection.
+- Both have O(V + E) time complexity.
+
+---
+
+Extra Credit: Dijkstra’s Algorithm
+Implementation:
+
+import heapq
+
+def dijkstra(graph, start):
+    pq = [(0, start)]
+    distances = {node: float('inf') for node in graph}
+    distances[start] = 0
+    
+    while pq:
+        curr_dist, node = heapq.heappop(pq)
+        for neighbor, weight in graph[node]:
+            distance = curr_dist + weight
+            if distance < distances[neighbor]:
+                distances[neighbor] = distance
+                heapq.heappush(pq, (distance, neighbor))
+    
+    return distances
+
+Why Dijkstra's Algorithm Doesn't Work for Negative Weights:
+Dijkstra assumes that once a node's shortest path is found, it will not change. With negative weights, a shorter path might be found later, leading to incorrect results. Bellman-Ford is preferred in such cases.
+
+---
+
+Conclusion:
+This assignment covered fundamental data structures and algorithms, including stacks, binary search trees, dynamic programming, graph traversal, and shortest path algorithms. The implementations demonstrate key concepts in algorithm efficiency and data organization. Through this assignment, I have solidified my understanding of different traversal techniques and algorithmic optimizations, which will be valuable in solving complex computational problems in the future.
+
+---
+
+### **Extended Analysis and Applications**
+
+### **Problem 1: Implementing a Stack Using a Linked List**
+The stack is widely used in many computing applications, such as:
+
+1. **Expression Evaluation:** Stacks are used to evaluate arithmetic expressions, including infix, postfix, and prefix notations.
+
+2. **Undo/Redo Mechanisms:** Applications such as text editors maintain an undo history using stacks.
+
+3. **Backtracking Algorithms:** The stack structure helps implement backtracking techniques, like solving mazes or puzzles.
+
+
+**Performance Considerations:**
+
+- **Time Complexity:** Push and pop operations in a stack take **O(1)** time, making them extremely efficient.
+
+- **Memory Usage:** A linked list stack requires extra memory for pointers, which can be a drawback compared to an array-based stack for large datasets.
+
+
+---
+
+### **Problem 2: Binary Search Tree (BST) Operations**
+
+A **Binary Search Tree (BST)** is a hierarchical data structure used for efficient searching and sorting. Some real-world applications include:
+
+1. **Database Indexing:** BSTs are used to index database records, allowing fast lookups.
+
+2. **File System Management:** BSTs help organize hierarchical file structures.
+
+3. **Network Routing:** BSTs help efficiently store and search network routes.
+
+
+**Balancing BSTs:**
+
+A common issue with BSTs is imbalance, which increases search time. **Self-balancing BSTs** such as **AVL trees** and **Red-Black trees** ensure logarithmic height and improved efficiency.
+
+
+---
+
+### **Problem 3: Dynamic Programming - Coin Change Problem**
+
+**Alternative Approaches:**
+
+- **Greedy Algorithm:** This approach works only for certain coin denominations, where selecting the largest available coin at each step guarantees the optimal solution.
+
+- **Recursive Approach:** This method involves solving the problem using recursion but leads to exponential time complexity **O(2^n)**, making it impractical for large inputs.
+
+
+**Real-World Applications:**
+
+1. **Currency Exchange:** Used to determine the minimum number of bills/coins needed for a given amount.
+
+2. **Resource Allocation:** Applied in minimizing resource wastage in various allocation problems.
+
+3. **Path Optimization:** Helps in optimizing paths in robotics and game development.
+
+
+---
+
+### **Problem 4: Graph Traversals - BFS and DFS**
+
+Graph traversal is a fundamental technique in computing. Some practical applications include:
+
+1. **Social Networks:** BFS is used in friend suggestions and shortest connection paths.
+
+2. **Artificial Intelligence:** DFS is used in AI decision trees and game playing algorithms.
+
+3. **Web Crawling:** Search engines use BFS to index websites efficiently.
+
+
+**When to Use BFS vs. DFS:**
+
+- **BFS:** Ideal for finding the shortest path in unweighted graphs.
+
+- **DFS:** More suitable for solving maze problems and connectivity detection.
+
+
+---
+
+### **Dijkstra’s Algorithm and Graph Shortest Path Algorithms**
+
+Dijkstra’s algorithm is an efficient method for finding the shortest path in weighted graphs. However, it does not work with negative weights. Alternatives include:
+
+1. **Bellman-Ford Algorithm:** Works with negative weights but has a higher time complexity **O(VE)**.
+
+2. **Floyd-Warshall Algorithm:** Used for finding shortest paths between all pairs of vertices.
+
+3. **A* Algorithm:** Enhances Dijkstra’s approach by adding heuristics, commonly used in game AI and navigation.
+
+
+---
+
+### **Conclusion: Practical Implications of Algorithms**
+
+Understanding data structures and algorithms is crucial for real-world software development. From optimizing databases to enhancing AI efficiency, these principles have widespread applications. Mastery of these concepts allows developers to write optimized, scalable, and maintainable code.
+
+**Key Takeaways:**
+
+- **Stacks** are efficient for LIFO operations and widely used in system design.
+
+- **BSTs** provide efficient searching but need balancing mechanisms for optimal performance.
+
+- **Dynamic programming** optimizes recursive problems, preventing redundant computations.
+
+- **Graph algorithms** power networking, AI, and modern search engines.
+
+
+By applying these concepts, software engineers can solve complex problems efficiently and design high-performance applications.
+
+
+---
+
+### **Deep Dive into Stack Implementation**
+
+Stacks have been a fundamental data structure since the early days of computing. They provide an efficient way to handle function calls, expression evaluation, and undo operations in applications.
+
+
+**Advanced Applications of Stacks:**
+
+1. **Memory Management:** Modern operating systems use stacks to manage function calls and memory allocation efficiently.
+
+2. **Parsing Expressions:** Compilers use stacks to parse and evaluate mathematical expressions.
+
+3. **Graph Traversal:** Depth-first search (DFS) uses an implicit stack for exploration.
+
+4. **Bracket Matching:** Used in syntax validation of programming languages and document formatting.
+
+
+**Stack vs. Queue:**
+
+- **Stack (LIFO):** Best for last-accessed-first retrievals.
+
+- **Queue (FIFO):** More suitable for order-sensitive processes such as scheduling tasks.
+
+
+---
+
+### **Deep Dive into Binary Search Trees (BSTs)**
+
+BSTs provide efficient searching, insertion, and deletion, making them essential for many applications.
+
+
+**Balancing Strategies:**
+
+- **AVL Trees:** Maintain balance through rotations.
+
+- **Red-Black Trees:** Used in databases and system software.
+
+- **B-Trees:** Optimized for disk-based storage systems.
+
+
+**Performance Considerations:**
+
+- **Best Case:** O(log n) operations when the tree is balanced.
+
+- **Worst Case:** O(n) when the tree degenerates into a linked list.
+
+- **Solution:** Use self-balancing techniques to maintain efficiency.
+
+
+---
+
+### **Dynamic Programming in Detail**
+
+Dynamic programming (DP) is a powerful technique that avoids redundant calculations by breaking problems into subproblems.
+
+
+**Optimized DP Strategies:**
+
+1. **Memoization:** Stores previously computed results to prevent recalculations.
+
+2. **Tabulation:** Builds solutions iteratively from smaller subproblems.
+
+3. **Bitmasking:** Efficient for solving subset-related problems.
+
+
+**Famous DP Problems:**
+
+- Fibonacci sequence
+
+- Knapsack problem
+
+- Longest common subsequence
+
+- Matrix chain multiplication
+
+
+---
+
+### **Graph Theory: Real-World Uses**
+
+Graphs represent relationships between objects and are used in networking, AI, and social networks.
+
+
+**Advanced Algorithms:**
+
+1. **A* Search:** Optimized pathfinding used in GPS navigation.
+
+2. **Floyd-Warshall Algorithm:** Computes shortest paths between all pairs of vertices.
+
+3. **Prim's & Kruskal’s Algorithm:** Used in building minimum spanning trees for network design.
+
+
+**Graph Use Cases:**
+
+- **Social Networks:** Finding connections, mutual friends, and communities.
+
+- **Web Crawling:** Google’s PageRank algorithm uses graph theory.
+
+- **AI and Robotics:** Graph-based search techniques power game AI and autonomous vehicles.
+
+
+---
+
+### **Conclusion: Key Learnings**
+
+Data structures and algorithms form the backbone of computer science. By mastering these concepts, software engineers can develop optimized, scalable, and high-performance applications.
+
+
+This homework assignment not only strengthened my understanding but also provided real-world insights into problem-solving techniques that are applicable across various domains.
+
+
+---
+
+### **Deep Dive into Stack Implementation**
+
+Stacks have been a fundamental data structure since the early days of computing. They provide an efficient way to handle function calls, expression evaluation, and undo operations in applications.
+
+
+**Advanced Applications of Stacks:**
+
+1. **Memory Management:** Modern operating systems use stacks to manage function calls and memory allocation efficiently.
+
+2. **Parsing Expressions:** Compilers use stacks to parse and evaluate mathematical expressions.
+
+3. **Graph Traversal:** Depth-first search (DFS) uses an implicit stack for exploration.
+
+4. **Bracket Matching:** Used in syntax validation of programming languages and document formatting.
+
+
+**Stack vs. Queue:**
+
+- **Stack (LIFO):** Best for last-accessed-first retrievals.
+
+- **Queue (FIFO):** More suitable for order-sensitive processes such as scheduling tasks.
+
+
+---
+
+### **Deep Dive into Binary Search Trees (BSTs)**
+
+BSTs provide efficient searching, insertion, and deletion, making them essential for many applications.
+
+
+**Balancing Strategies:**
+
+- **AVL Trees:** Maintain balance through rotations.
+
+- **Red-Black Trees:** Used in databases and system software.
+
+- **B-Trees:** Optimized for disk-based storage systems.
+
+
+**Performance Considerations:**
+
+- **Best Case:** O(log n) operations when the tree is balanced.
+
+- **Worst Case:** O(n) when the tree degenerates into a linked list.
+
+- **Solution:** Use self-balancing techniques to maintain efficiency.
+
+
+---
+
+### **Dynamic Programming in Detail**
+
+Dynamic programming (DP) is a powerful technique that avoids redundant calculations by breaking problems into subproblems.
+
+
+**Optimized DP Strategies:**
+
+1. **Memoization:** Stores previously computed results to prevent recalculations.
+
+2. **Tabulation:** Builds solutions iteratively from smaller subproblems.
+
+3. **Bitmasking:** Efficient for solving subset-related problems.
+
+
+**Famous DP Problems:**
+
+- Fibonacci sequence
+
+- Knapsack problem
+
+- Longest common subsequence
+
+- Matrix chain multiplication
+
+
+---
+
+### **Graph Theory: Real-World Uses**
+
+Graphs represent relationships between objects and are used in networking, AI, and social networks.
+
+
+**Advanced Algorithms:**
+
+1. **A* Search:** Optimized pathfinding used in GPS navigation.
+
+2. **Floyd-Warshall Algorithm:** Computes shortest paths between all pairs of vertices.
+
+3. **Prim's & Kruskal’s Algorithm:** Used in building minimum spanning trees for network design.
+
+
+**Graph Use Cases:**
+
+- **Social Networks:** Finding connections, mutual friends, and communities.
+
+- **Web Crawling:** Google’s PageRank algorithm uses graph theory.
+
+- **AI and Robotics:** Graph-based search techniques power game AI and autonomous vehicles.
+
+
+---
+
+### **Conclusion: Key Learnings**
+
+Data structures and algorithms form the backbone of computer science. By mastering these concepts, software engineers can develop optimized, scalable, and high-performance applications.
+
+
+This homework assignment not only strengthened my understanding but also provided real-world insights into problem-solving techniques that are applicable across various domains.
+
+
+---
+
+### **Deep Dive into Stack Implementation**
+
+Stacks have been a fundamental data structure since the early days of computing. They provide an efficient way to handle function calls, expression evaluation, and undo operations in applications.
+
+
+**Advanced Applications of Stacks:**
+
+1. **Memory Management:** Modern operating systems use stacks to manage function calls and memory allocation efficiently.
+
+2. **Parsing Expressions:** Compilers use stacks to parse and evaluate mathematical expressions.
+
+3. **Graph Traversal:** Depth-first search (DFS) uses an implicit stack for exploration.
+
+4. **Bracket Matching:** Used in syntax validation of programming languages and document formatting.
+
+
+**Stack vs. Queue:**
+
+- **Stack (LIFO):** Best for last-accessed-first retrievals.
+
+- **Queue (FIFO):** More suitable for order-sensitive processes such as scheduling tasks.
+
+
+---
+
+### **Deep Dive into Binary Search Trees (BSTs)**
+
+BSTs provide efficient searching, insertion, and deletion, making them essential for many applications.
+
+
+**Balancing Strategies:**
+
+- **AVL Trees:** Maintain balance through rotations.
+
+- **Red-Black Trees:** Used in databases and system software.
+
+- **B-Trees:** Optimized for disk-based storage systems.
+
+
+**Performance Considerations:**
+
+- **Best Case:** O(log n) operations when the tree is balanced.
+
+- **Worst Case:** O(n) when the tree degenerates into a linked list.
+
+- **Solution:** Use self-balancing techniques to maintain efficiency.
+
+
+---
+
+### **Dynamic Programming in Detail**
+
+Dynamic programming (DP) is a powerful technique that avoids redundant calculations by breaking problems into subproblems.
+
+
+**Optimized DP Strategies:**
+
+1. **Memoization:** Stores previously computed results to prevent recalculations.
+
+2. **Tabulation:** Builds solutions iteratively from smaller subproblems.
+
+3. **Bitmasking:** Efficient for solving subset-related problems.
+
+
+**Famous DP Problems:**
+
+- Fibonacci sequence
+
+- Knapsack problem
+
+- Longest common subsequence
+
+- Matrix chain multiplication
+
+
+---
+
+### **Graph Theory: Real-World Uses**
+
+Graphs represent relationships between objects and are used in networking, AI, and social networks.
+
+
+**Advanced Algorithms:**
+
+1. **A* Search:** Optimized pathfinding used in GPS navigation.
+
+2. **Floyd-Warshall Algorithm:** Computes shortest paths between all pairs of vertices.
+
+3. **Prim's & Kruskal’s Algorithm:** Used in building minimum spanning trees for network design.
+
+
+**Graph Use Cases:**
+
+- **Social Networks:** Finding connections, mutual friends, and communities.
+
+- **Web Crawling:** Google’s PageRank algorithm uses graph theory.
+
+- **AI and Robotics:** Graph-based search techniques power game AI and autonomous vehicles.
+
+
+---
+
+### **Conclusion: Key Learnings**
+
+Data structures and algorithms form the backbone of computer science. By mastering these concepts, software engineers can develop optimized, scalable, and high-performance applications.
+
+
+This homework assignment not only strengthened my understanding but also provided real-world insights into problem-solving techniques that are applicable across various domains.
+

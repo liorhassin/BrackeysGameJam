@@ -22,7 +22,6 @@ public class LaptopInteractable : Interactable
             playerMovement = FindFirstObjectByType<PlayerController>();
         if (playerCameraScript == null)
             playerCameraScript = FindFirstObjectByType<PlayerCamera>();
-        alwaysOutline = true;
         setColor(Color.yellow);
         EnableOutline();
 

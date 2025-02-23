@@ -5,6 +5,7 @@ using UnityEngine;
 public class DiffuseManager : TypingManager
 {
     public TMP_InputField[] answerFields; // Assign in Inspector
+    public LaptopInteractable laptopInteractable;
 
     private int[] answers = { 2, 56, 2, 20, 17 };
     private int currentIndex = 0;
@@ -63,7 +64,7 @@ public class DiffuseManager : TypingManager
             }
             else
             {
-                DisableTyping();
+                laptopInteractable.ExitLaptopMode();
                 Debug.Log("All answers correct!");
                 isSolved = true;
             }

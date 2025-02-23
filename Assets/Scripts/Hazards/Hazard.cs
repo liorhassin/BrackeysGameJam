@@ -10,10 +10,22 @@ public abstract class Hazard : MonoBehaviour
     public GameObject[] itemsToHighlightGreen;
     public GameObject[] itemsToHighlightRed;
 
+    public AudioClip startAudioClip; // Assign this in the inspector or load via code
+    public AudioClip resolvedAudio;
+    public AudioSource audioSource;
+
 
 
     public HighlightManager highlightManager;
     private LaptopInteractable laptopInteractable;
+
+    public void Start()
+    {
+        // Load the AudioClip from Resources folder
+        if (resolvedAudio == null){
+            resolvedAudio = Resources.Load<AudioClip>("Assets/Sounds/level_up.mp3");
+        }
+    }
 
     public void StartHazard()
     {
@@ -25,8 +37,13 @@ public abstract class Hazard : MonoBehaviour
         }
         laptopInteractable.active = false;
 
+        if (startAudioClip != null){
+            audioSource.PlayOneShot(startAudioClip);
+        }
+
         TriggerHazard();
         isFixed = false;
+        
 
         // Highlight items at the start of the hazard
         HighlightObjects();
@@ -81,6 +98,7 @@ public abstract class Hazard : MonoBehaviour
 
     public void ResolveHazard()
     {
+        audioSource.PlayOneShot(resolvedAudio);
         isFixed = true;
         laptopInteractable.active = true;
         CleanupHazard();

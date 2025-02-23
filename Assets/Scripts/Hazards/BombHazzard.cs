@@ -14,6 +14,8 @@ public class BombHazzard : Hazard
 
     private bool triggered = false;
 
+    private bool resolved = false;
+
     void Start()
     {
         hazardName = "Defuse The Bomb";
@@ -25,8 +27,9 @@ public class BombHazzard : Hazard
 
     void Update()
     {
-        if (diffuseManager.isSolved)
+        if (diffuseManager.isSolved && !resolved)
         {
+            resolved = true;
             isFixed = true;
             timer.StopTimer();
             ResolveHazard();

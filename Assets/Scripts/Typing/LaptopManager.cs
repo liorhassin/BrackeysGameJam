@@ -14,9 +14,10 @@ public class LaptopManager : TypingManager
     private string loadedText = "";
     private int currentIndex = 0;
     private int goalIndex = 0;
-    private int charPerFrame = 100;
-    private int typingSpeedMultiplier = 800;
-    private int typingMaxCap = 10000;
+    private int charPerFrame = 160;
+    private float lengthToAdd = 0f;
+    private int typingSpeedMultiplier = 30;
+    private int typingMaxCap = 300;
     private bool is_active = false;
     private bool pistol_was_active = false;
     private float progress = 0;
@@ -37,25 +38,29 @@ public class LaptopManager : TypingManager
                 Debug.Log("is active was on");
                 laptopInteractable.ExitLaptopMode();
             }
-            else{
-                Debug.Log("is active was off");
-            }
             return;
         }
 
         errorImage.enabled = false;
-        
+
         if (!is_active){
             return;
         }
 
-        // Calculate the next chunk of text to display
-        int lengthToAdd = Mathf.Min(charPerFrame, goalIndex - currentIndex);
-        if (lengthToAdd > 0)
+        // Accumulate lengthToAdd over time
+        lengthToAdd += Time.deltaTime * charPerFrame;
+        int lengthToAddInt = Mathf.FloorToInt(lengthToAdd); // Convert float to int
+
+        if (lengthToAddInt > 0)
         {
-            // Add the substring from the loaded text
-            displayText.text += loadedText.Substring(currentIndex, lengthToAdd);
-            currentIndex += lengthToAdd;
+            lengthToAdd -= lengthToAddInt; // Subtract used portion
+
+            int charsToAdd = Mathf.Min(lengthToAddInt, goalIndex - currentIndex);
+            if (charsToAdd > 0)
+            {
+                displayText.text += loadedText.Substring(currentIndex, charsToAdd);
+                currentIndex += charsToAdd;
+            }
         }
 
         // Limit the display text length by removing characters from the start
@@ -86,9 +91,10 @@ public class LaptopManager : TypingManager
     }
 
 
+
     void LoadTextFile()
     {
-        TextAsset textAsset = Resources.Load<TextAsset>("J. K. Rowling - Harry Potter 1 - Sorcerer's Stone");
+        TextAsset textAsset = Resources.Load<TextAsset>("cs_homework_20k");
         if (textAsset != null)
         {
             loadedText = textAsset.text;
