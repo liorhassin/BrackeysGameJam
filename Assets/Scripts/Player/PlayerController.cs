@@ -6,10 +6,16 @@ public class PlayerController : MonoBehaviour
     private float verticalInput;
     private float horizontalInput;
     private bool movementAllowed = true;
+    float xRotation;
+    float yRotation;
+    public static float mouseSensitivityX = 500f;
+    public static float mouseSensitivityY = 500f;
+    public static float sensitivityMuliplier = 0.5f;
+    
+    public Transform camerTransform;
 
     [Header("References")]
     private CharacterController controller;
-    public Transform orientation;
     public Camera playerCamera; // Reference to the player camera
     public float interactionRange = 3f; // How far the player can interact
 
@@ -58,6 +64,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        mouseSensitivityX  *= sensitivityMuliplier;
+        mouseSensitivityY *= sensitivityMuliplier;
     }
 
     private void Movement()
@@ -78,6 +86,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Look(){
+        float mouseX = Input.GetAxisRaw("Mouse X") * mouseSensitivityX * Time.deltaTime;
+        float mouseY = Input.GetAxisRaw("Mouse Y") * mouseSensitivityY * Time.deltaTime;
+
+        yRotation += mouseX;
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        transform.rotation = Quaternion.Euler(0f, yRotation, 0f);
+        camerTransform.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
+    }
+
     void Update()
     {
         DetectInteractable();
@@ -86,15 +105,13 @@ public class PlayerController : MonoBehaviour
         {
             InputManagement();
             Movement();
+            Look();
         }
 
         if (Input.GetKeyDown(interactKey))
         {
             Interact();
         }
-
-        // Rotate the player to match orientation's rotation
-        transform.rotation = Quaternion.Euler(0, orientation.eulerAngles.y, 0);
     }
 
     public void AllowMovement(bool b)
@@ -104,7 +121,7 @@ public class PlayerController : MonoBehaviour
 
     private void GroundMovement()
     {
-        Vector3 targetMoveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        Vector3 targetMoveDirection = camerTransform.forward * verticalInput + camerTransform.right * horizontalInput;
         targetMoveDirection *= walkSpeed;
 
         // Apply deceleration when input stops
@@ -162,5 +179,12 @@ public class PlayerController : MonoBehaviour
             currentInteractable.DisableOutline();
             currentInteractable = null;
         }
+    }
+
+    public static void SetSensitivity(float sen)
+    {
+        sensitivityMuliplier = sen;
+        mouseSensitivityX = sen * 500f;
+        mouseSensitivityY = sen * 500f;
     }
 }

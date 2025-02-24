@@ -17,10 +17,10 @@ public class LaptopManager : TypingManager
     private int charPerFrame = 160;
     private float lengthToAdd = 0f;
     private int typingSpeedMultiplier = 30;
-    private int typingMaxCap = 300;
+    private int typingMaxCap = 35;
     private bool is_active = false;
     private bool pistol_was_active = false;
-    private float progress = 0;
+    private float progress = 0f;
 
 
     void Start()

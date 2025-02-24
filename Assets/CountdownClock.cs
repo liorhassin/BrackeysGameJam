@@ -29,7 +29,10 @@ public class CountdownClock : MonoBehaviour
 
     void UpdateClock()
     {
-        if (totalTime > 0 && active)
+        if (!active){
+            return;
+        }
+        if (totalTime > 0)
         {
             totalTime--;
             UpdateClockDisplay();

@@ -1,15 +1,24 @@
+using System;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
 {
 
-    float xRotation;
-    float yRotation;
-    public float mouseSensitivityX = 100f;
-    public float mouseSensitivityY = 100f;
-    public Transform orientation;
-
     private bool camera_enabled = true;
+
+    public Transform targetTransform;
+    public PlayerController playerMovement;
+    private float transitionSpeed = 5f;
+    private float minSpeed = 0.05f;
+
+    public enum State {
+        OnTarget,
+        Tarnsition,
+    }
+
+    private State currState;
+    private bool allowMovementTransition = true;
 
     public void enable_camera(bool b)
     {
@@ -20,28 +29,46 @@ public class PlayerCamera : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        transform.position = targetTransform.position;
+        transform.rotation = targetTransform.rotation;
+        currState = State.OnTarget;
     }
 
+    public void ChangeCameraTarget(Transform target, bool allowMovement){
+        targetTransform = target;
+        currState = State.Tarnsition;
+        allowMovementTransition = allowMovement;
+        if (!allowMovement){
+            playerMovement.AllowMovement(allowMovement);
+        }
+    }
     // Update is called once per frame
     void Update()
     {
-        if (!camera_enabled)
+        if (currState == State.Tarnsition)
         {
+            float distance = Vector3.Distance(transform.position, targetTransform.position);
+            
+            // Adjusted speed to prevent extreme slowdowns
+            float dynamicSpeed = Mathf.Max(minSpeed, transitionSpeed * Time.deltaTime); // Ensures a minimum speed
+
+            transform.position = Vector3.Lerp(transform.position, targetTransform.position,  dynamicSpeed);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetTransform.rotation, dynamicSpeed);
+
+
+            if (distance < 0.007f)
+            {
+                currState = State.OnTarget;
+                playerMovement.AllowMovement(allowMovementTransition);
+            }
+        }
+
+        if (currState == State.OnTarget)
+        {
+            transform.position = targetTransform.position;
+            transform.rotation = targetTransform.rotation;
             return;
         }
-        float mouseX = Input.GetAxisRaw("Mouse X") * mouseSensitivityX * Time.deltaTime;
-        float mouseY = Input.GetAxisRaw("Mouse Y") * mouseSensitivityY * Time.deltaTime;
-
-        yRotation += mouseX;
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-        transform.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
-        orientation.rotation = Quaternion.Euler(0f, yRotation, 0f);
     }
 
-    public void SetSensitivity(float sen)
-    {
-        mouseSensitivityX = sen * 400f;
-        mouseSensitivityY = sen * 400f;
-    }
 }

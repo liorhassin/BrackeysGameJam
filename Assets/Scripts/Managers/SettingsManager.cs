@@ -49,7 +49,7 @@ public class SettingsManager : MonoBehaviour
         PlayerPrefs.SetFloat("Sensitivity", sen);
         if (playerCamera != null)
         {
-            playerCamera.SetSensitivity(sen);
+            PlayerController.SetSensitivity(sen);
         }
         
     }
@@ -67,7 +67,10 @@ public class SettingsManager : MonoBehaviour
     public void LoadSettings()
     {
         soundSlider.value = PlayerPrefs.GetFloat("SoundVolume", 1f);
+        SetSoundVolume();
         sensitivitySlider.value = PlayerPrefs.GetFloat("Sensitivity", 5f);
+        SetSensitivity();
         musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", 1f);
+        SetMusicVolume();
     }
 }

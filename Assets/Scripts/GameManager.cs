@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
 
         if (playerHealth.isDead)
         {
+            countdownClock.Stop();
             uiCanvas.SetActive(false);
             endGameUIManager.ShowEndGameScreen(false, progress);
         }
